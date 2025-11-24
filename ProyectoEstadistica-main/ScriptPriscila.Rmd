@@ -1,0 +1,887 @@
+---
+title: 'Trabajo: Simulación por Montecarlo y Bootstrap'
+link-citations: yes
+output:
+  pdf_document: 
+    keep_md: true
+    keep_tex: yes
+    toc: true
+    number_sections: yes
+    fig_caption : yes
+    latex_engine: xelatex
+  html_document: default
+  '': default
+header-includes:
+   - \usepackage[spanish]{babel}
+   - \usepackage{float}
+bibliography: biblio.bib
+linkcolor: blue
+extra_dependencies: ["float"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+library(ggplot2)
+library(dplyr)
+library(data.table)
+library(lubridate)
+library(plot3D)
+library(plotrix)
+library(xtable)
+library(kableExtra)
+library(DT)
+library(boot)
+library(ks)
+library(ks)
+library(mixtools)
+library(RODBC)
+library(mclust)
+```
+
+\section {Introducción}
+\label{introduccion}
+
+La Comisión Económica para América Latina y el Caribe [@de2023estadisticas], proyecta en
+el año 2023, un crecimiento inferior al 2022, para América Latina y el Caribe,
+consecuencia del lento desarrollo de la economía mundial, menor demanda de
+productos, disminución de precios y la incertidumbre en los mercados financieros
+internacionales.[@cepal2023informe]
+
+La economía ecuatoriana, al igual que los demás países de la región, manifiesta menor dinamismo desde inicios de 2023, debido fundamentalmente a la caída de bancos norteamericanos y la disminución de dinero corriente.[@merchan2023liquidez]
+Por otra parte, al final de 2022 se implementó un nuevo marco normativo para el
+sistema financiero nacional, el cambio de par 60 a par 30 por lo cual las entidades financieras
+tendrán que balancear sus recursos de liquidez y colocación de cartera. Es decir, no solo enfrentan
+un problema de escasez de liquidez sino también de calidad de cartera y provisionamiento.[@uvidia2023dinamismo]
+
+A pesar de la compleja coyuntura económica por la que atraviesa el país, la liquidez del
+Sistema Financiero Popular y Solidario presenta una evolución relativamente estable.
+Sin embargo, para la Caja Central Financoop es muy
+importante estudiar esta variable y su riesgo asociado. [@crespo2023impacto].
+
+Este estudio analiza el riesgo de liquidez del Sistema Financiero Popular y Solidario
+mediante la observación del comportamiento del indicador de liquidez. Con este
+objetivo, en este documento se presenta en la sección \ref{problema} el planteamiento del problema para la Caja Central, luego en \ref{objetivo} se plantean los principales que objetivos que se pretenden con este trabajo. En la sección \ref{metodologia} se plantea la metodología que se seguirá para encontrar la distribución y los intervalos. En lo posterior en la sección \ref{simulacion} se expone el procedimiento seguido por el método de Montecarlo y Bootstrap. También en \ref{mínimoidicador} se detallan los intervalos del mínimo del indicador. Finalmente en la sección \ref{conclurec} se exponen las conclusiones y recomendaciones para la caja central.
+
+
+
+\section {Planteamiento del Problema}
+\label{problema}
+
+El indicador de liquidez en el ámbito financiero es de gran importancia ya que ayuda a monitorear la relación que existe entre los activos y pasivos, es decir, si las cooperativas pueden afrontar sus obligaciones.
+Debido a cambios normativos el indicador de liquidez desde el año 2023 ha diminuido para algunas cooperativas, por esta razón se desea establecer intervalos de confianza para el mínimo de este indicador que perimita determinar el deterioro de las cooperativas.
+ 
+Por ende a partir del indicador de liquidez  (cuentas de activos y pasivos) del mes de diciembre se determinarán los intervalos de confianza para determinar las cooperativas más deterioradas a enero del presente año. La metodología que se usará es simulación por montecarlo, pues se encontrará la distribución del indicador de liquidez a partir de la cuenta de activos y pasivos
+
+En lo posterior se encontrará a distribución por remuestreo bootstrap del indicador, para
+obtener la estimación del del sesgo y precisión así como tal el intervalo de confianza
+y las cooperativas más deterioradas.
+
+\section {Objetivos}
+\label{objetivo}
+
+\subsection {Objetivo General}
+\label{objetivog}
+
+1. Determinar las cooperativas con mayor deterioro considerando diciembre del año 2022 y enero del 2023.
+
+\subsection {Objetivos Específicos}
+\label{objetivos}
+
+1. Encontrar la distribución del indicador de liquidez a partir de las cuentas de activos y pasivos usando la simulación de montecarlo.
+
+2. Encontrar la distribución del indicador por remuestreo bootstrap
+
+3. Determinar el intervalo para el mínimo del indicador de liquidez
+
+
+\section {Metodología}
+\label{metodologia}
+ 
+El indicador le liquidez $L$ se define por las cuentas de activos $A$ y pasivos $P$ ,entonces a partir de simulación por montecarlo encontraremos la distribución de $L=\frac{A}{P}$ 
+Como $A$ y $P$ están correlacionadas entonces determinaremos $(A,P)\sim G$
+
+También aproximaremos la distribución del indicador de liquidez $\hat F$
+
+En general para el remuestreo bootstrap lo que seguiremos es 
+
+1. Para cada i=1,...,n generar $L_i^*$ a partir de $F_n$
+2. Obtener $L^*=(L_1^*,...,L_n^*)$
+3. Repetimos B veces los pasos 1 y 2 para obtener replicas $L^{*(1)},...L^{*(B)}$
+4. Usamos estas réplicas bootstrap para aproximar la distribución de remuestreo de R.
+
+
+Ahora si consideramos $\hat \theta=T(L)$, consideramso F la distribución conocida y definimos el estadístico
+
+$$ R(L,F)= \hat \theta-\theta$$
+Vamos aproximar el sesgo y la varianza 
+
+$$Sesgo(\hat\theta)=E(\hat\theta-\theta)=E(R)$$
+$$ Var(\theta)=Var(\hat \theta-\theta)$$
+
+
+1. Para cada $i=1,..n$ generar $L_I^*$ a partir de $\hat F$ y obtenemos $L^*=(L_1^*,...,L_n^*)$
+
+2. Calculamos $R^*=R(L^*,\hat F)=\hat\theta^*-\hat\theta$
+
+3. Repetimos B veces los paso 1-2 para obtener las replicas $R^{*(1)},...,R{^*(B)}$
+
+4. Usamos las réplicas bootstrap para aproximar las caracteristicas de interés
+
+$$Sesgo^*(\hat \theta^*)= \frac{1}{B}\sum_{b=1}^B R^{*(B)}$$
+
+$$Var^*(\hat\theta^*)=\frac{1}{B}\sum_{b=1}^B( R^{*(B)}-\bar R^*)^*$$
+
+\section {Simulación}
+\label{simulacion}
+
+\subsection{Simulación de la distribución del indicador por Montecarlo y Bootstrap}
+\label{montecarlo_bootstrap}
+
+El primer paso será ajustar la relación del activo y pasivo a una distribución multivariante. 
+Se han considerado cooperativas que mantiene su indicador de liquidez dentro de parámetros aceptables por normativa esto es entre 14% y 40%.En la figura \ref{fig:histo.graf1} se observa la distribución de las cooperativas.
+Para este análisis se han tomado cooperativas del segmento 1 y 2 que tienen liquidez dentro de la normativa. Las cooperativas que mantienen niveles de liquidez aceptables son las siguientes tiene las siguientes características promedio a diciembre 2022 (mes tomado como referencia) de los principales indicadores
+
+Indicador          | Valor         
+-------------------|---------
+Liquidez Corriente | 21.8%   
+Morosidad Ampliada | 4.2%
+ROA                | 2.1%
+ROE                | 0.3%
+Activos Productivos| 92.65%
+Cobertura          | 99.47%
+
+
+```{r lectura1,echo=FALSE,fig.align='center',fig.dim = c(8, 3.5)}
+con_sql <- odbcConnect("OLTP BALANCES",uid="pguayasamin", pwd = "Financoop23")
+sqlr <- paste0("SELECT bal_nombre_cuenta,bal_ruc,coo_nombre,bal_saldo,c.coo_segmento_seps
+FROM 
+tp_balances b
+,tp_cooperativa c
+WHERE b.bal_fecha_corte  = '2022-12-31'
+AND   b.bal_nombre_cuenta ='FONDOS DISPONIBLES'
+--AND b.bal_codigo= '11'
+AND  b.bal_ruc=c.coo_ruc
+--AND c.coo_segmento_seps IN ('1','2')
+ORDER BY coo_nombre")
+fond_disp<- sqlQuery(con_sql,sqlr)
+fond_disp<-data.table(fond_disp)
+
+
+sqlr <- paste0("SELECT bal_nombre_cuenta,bal_ruc,b.bal_codigo,coo_nombre,b.bal_saldo,c.coo_segmento_seps
+FROM 
+tp_balances b
+,tp_cooperativa c
+WHERE b.bal_fecha_corte  = '2022-12-31'
+--AND   b.bal_nombre_cuenta='Depositos a la vista'
+AND b.bal_codigo IN ('2101','2102','210305','210310')
+AND  b.bal_ruc=c.coo_ruc
+--AND c.coo_segmento_seps IN ('1','2')
+ORDER BY coo_nombre")
+
+dep_vista<- sqlQuery(con_sql,sqlr)
+dep_vista<-data.table(dep_vista)
+dep_vista<-dep_vista[bal_saldo>0]
+dep_vista2<-dep_vista%>%group_by(coo_nombre)%>%summarise(dep_90_dias=sum(bal_saldo))
+
+
+fond_disp<-data.table(fond_disp)
+fond_disp1<-fond_disp[bal_saldo!=0 & bal_saldo>1656.3523,]
+dep_vista<-data.table(dep_vista)
+dep_vista1<-dep_vista[bal_saldo>0]
+dep_vista2<-dep_vista%>%group_by(coo_nombre)%>%summarise(dep_90_dias=sum(bal_saldo))
+
+datos<-merge(fond_disp1,dep_vista2)
+d<-datos%>%mutate(indicador=(bal_saldo/dep_90_dias)*100)
+
+
+
+
+cuentas1<-d[bal_saldo>2e+04 & bal_saldo<6e+04 & dep_90_dias>1.34e+04 & dep_90_dias<2.7e+05]
+
+
+
+x_c <- cut(cuentas1$bal_saldo, 4)
+y_c <- cut(cuentas1$dep_90_dias, 4)
+
+z <- table(x_c, y_c)
+
+```
+
+
+
+```{r histo.graf1, echo=FALSE, fig.align='center', fig.cap="\\label{fig:histo.graf1}Distribución de las cooperativas por fondos disponibles y depósitos a 90 días", fig.dim=c(7,4), message=FALSE, warning=FALSE, width=7}
+
+hist3D(z=z, border="black",zlim=c(0,15), theta=40, phi=40, axes=TRUE,label=TRUE, nticks=3,
+        ticktype="detailed", space=0.1, lighting=TRUE, light="diffuse", shade=0.6,xlab = "Fondos Disponibles", ylab = "Dep. vista", zlab = "Frecuencia")
+
+
+```
+
+Del test AD, adaptado para la distribución multivariante tenemos que el p-valor es de 0.30 por no se rechaza la hipótesis nula. Es decir que los datos provienen de una distribución mixtura normal multivariante.
+
+A continuación en la figura \ref{fig:histo.graf2} se presenta la relación entra el los fondos disponibles y los depósitos a 90 días. 
+
+```{r func,eval=TRUE,echo=FALSE}
+mvnormalmixEM = function (x, lambda = NULL, mu = NULL, sigma = NULL, k = 2, arbmean = TRUE, arbvar = TRUE, 
+                          epsilon = 1e-08, maxit = 10000, verb = FALSE) 
+{
+  if(arbmean == FALSE && arbvar == FALSE){
+    stop(paste("Must change constraints on mu and/or sigma!","\n"))
+  }
+  x <- as.matrix(x)
+  n <- nrow(x)
+  p <- ncol(x)
+  tmp <- mvnormalmix.init(x = x, lambda = lambda, mu = mu, 
+                          sigma = sigma, k = k, arbmean=arbmean, arbvar = arbvar)
+  lambda <- tmp$lambda
+  mu<-tmp$mu
+  sigma <- tmp$sigma
+  k = tmp$k
+  diff <- 1
+  iter <- 0
+  if (arbmean==FALSE){
+    comp <- lapply(1:k, function(i) lambda[i] * dmvnorm(x, 
+                                                        mu, sigma[[i]]))
+  } else{
+    if (arbvar==FALSE) {
+      comp <- lapply(1:k, function(i) lambda[i] * dmvnorm(x, 
+                                                          mu[[i]], sigma))
+    }
+    else comp <- lapply(1:k, function(i) lambda[i] * dmvnorm(x, 
+                                                             mu[[i]], sigma[[i]]))
+  }
+  comp <- sapply(comp, cbind)
+  compsum <- apply(comp, 1, sum)
+  obsloglik <- sum(log(compsum))
+  ll <- obsloglik
+  restarts <- 0
+  while (diff > epsilon & iter < maxit) {
+    if (arbvar) {
+      z = matrix(nrow = n, ncol = k)
+      for (i in 1:n) {
+        for (j in 1:k) {
+          z.denom = c()
+          for (m in 1:k) {
+            z.denom = c(z.denom, lambda[m]/lambda[j] * 
+                          (det(sigma[[j]])/det(sigma[[m]]))^(0.5) * 
+                          exp(-0.5 * ((x[i, ] - mu[[m]]) %*% solve(sigma[[m]]) %*% 
+                                        t(t(x[i, ] - mu[[m]])) - (x[i, ] - mu[[j]]) %*% 
+                                        solve(sigma[[j]]) %*% t(t(x[i, ] - mu[[j]])))))
+          }
+          z[i, j] = 1/sum(z.denom)
+        }
+      }
+      z = z/apply(z,1,sum)
+      #	  z[,k]=1-apply(as.matrix(z[,(1:(k-1))]),1,sum)
+      sing <- sum(is.nan(z))
+      lambda.new <- apply(z, 2, mean)
+      if (sum(lambda.new < 1e-08)>0 || is.na(sum(lambda.new))) {
+        sing <- 1
+      }
+      else {
+        if(arbmean==FALSE) {
+          mu.new <- lapply(1:k, function(j) sapply(1:p, 
+                                                   function(i) apply(z * x[, i], 2, sum))[j, ])
+          mu.new <- apply(sapply(mu.new,as.vector),1,sum)/n
+          mu.new <- lapply(1:k, function(j) mu.new)
+        } else{
+          mu.new <- lapply(1:k, function(j) sapply(1:p, 
+                                                   function(i) apply(z * x[, i], 2, sum))[j, ]/sum(z[, 
+                                                                                                     j]))
+        }
+        sigma.new <- lapply(1:k, function(j) matrix(apply(sapply(1:n, 
+                                                                 function(i) z[i, j] * (x[i, ] - mu.new[[j]]) %*% 
+                                                                   t(x[i, ] - mu.new[[j]])), 1, sum), p, p)/sum(z[, 
+                                                                                                                  j]))
+        lambda <- lambda.new
+        mu <- mu.new
+        sigma <- sigma.new
+        comp <- lapply(1:k, function(i) lambda[i] * dmvnorm(x, 
+                                                            mu[[i]], sigma[[i]]))
+        comp <- sapply(comp, cbind)
+        compsum <- apply(comp, 1, sum)
+        newobsloglik <- sum(log(compsum))
+      }
+    }
+    else {
+      z = matrix(nrow = n, ncol = k)
+      sigma.inv = solve(sigma)
+      for (i in 1:n) {
+        for (j in 1:k) {
+          z.denom = c()
+          for (m in 1:k) {
+            z.denom = c(z.denom, lambda[m]/lambda[j] * 
+                          (det(sigma.inv)/det(sigma.inv))^(0.5) * 
+                          exp(-0.5 * ((x[i, ] - mu[[m]]) %*% sigma.inv %*% 
+                                        t(t(x[i, ] - mu[[m]])) - (x[i, ] - mu[[j]]) %*% 
+                                        sigma.inv %*% t(t(x[i, ] - mu[[j]])))))
+          }
+          z[i, j] = 1/sum(z.denom)
+        }
+      }
+      #	  z[,k]=1-apply(as.matrix(z[,(1:(k-1))]),1,sum)
+      z = z/apply(z,1,sum)
+      
+      sing <- sum(is.nan(z))
+      lambda.new <- apply(z, 2, mean)
+      if (sum(lambda.new < 1e-08)>0 || is.na(sum(lambda.new))) {
+        sing <- 1
+      }
+      else {
+        if(arbmean==FALSE) {
+          mu.new <- lapply(1:k, function(j) sapply(1:p, 
+                                                   function(i) apply(z * x[, i], 2, sum))[j, ])
+          mu.new <- apply(sapply(mu.new,as.vector),1,sum)/n
+          mu.new <- lapply(1:k, function(j) mu.new)
+        } else{
+          mu.new <- lapply(1:k, function(j) sapply(1:p, 
+                                                   function(i) apply(z * x[, i], 2, sum))[j, ]/sum(z[, 
+                                                                                                     j]))
+        }
+        temp.sig <- lapply(1:k, function(j) matrix(apply(sapply(1:n, 
+                                                                function(i) z[i, j] * (x[i, ] - mu.new[[j]]) %*% 
+                                                                  t(x[i, ] - mu.new[[j]])), 1, sum), p, p))
+        sigma.new <- matrix(apply(sapply(temp.sig, as.vector), 
+                                  1, sum), p, p)/n
+        lambda <- lambda.new
+        mu <- mu.new
+        sigma <- sigma.new
+        comp <- lapply(1:k, function(i) lambda[i] * dmvnorm(x, 
+                                                            mu[[i]], sigma))
+        comp <- sapply(comp, cbind)
+        compsum <- apply(comp, 1, sum)
+        newobsloglik <- sum(log(compsum))
+      }
+    }
+    if (sing > 0 || is.na(newobsloglik) || abs(newobsloglik) == Inf){# || sum(z) != n) {
+      cat("Need new starting values due to singularity...", 
+          "\n")
+      restarts <- restarts + 1
+      if(restarts>15) stop("Too many tries!")
+      tmp <- mvnormalmix.init(x = x, k = k, arbmean=arbmean, arbvar = arbvar)
+      lambda <- tmp$lambda
+      mu <- tmp$mu
+      sigma <- tmp$sigma
+      k = tmp$k
+      diff <- 1
+      iter <- 0
+      if (arbvar) {
+        comp <- lapply(1:k, function(i) lambda[i] * dmvnorm(x, 
+                                                            mu[[i]], sigma[[i]]))
+      }
+      else comp <- lapply(1:k, function(i) lambda[i] * 
+                            dmvnorm(x, mu[[i]], sigma))
+      comp <- sapply(comp, cbind)
+      compsum <- apply(comp, 1, sum)
+      obsloglik <- sum(log(compsum))
+      ll <- obsloglik
+    }
+    else {
+      diff <- newobsloglik - obsloglik
+      obsloglik <- newobsloglik
+      ll <- c(ll, obsloglik)
+      iter <- iter + 1
+      if (verb) {
+        cat("iteration=", iter, "diff=", diff, "log-likelihood", 
+            obsloglik, "\n")
+      }
+    }
+  }
+  if(arbmean==FALSE) {
+    mu = mu[[1]]
+  }
+  if (iter == maxit) {
+    cat("WARNING! NOT CONVERGENT!", "\n")
+  }
+  colnames(z) <- c(paste("comp", ".", 1:k, sep = ""))
+  a=list(x=x, lambda = lambda, mu = mu, sigma = sigma, 
+         loglik = obsloglik, posterior = z, all.loglik=ll, restarts=restarts, ft="mvnormalmixEM")
+  class(a) = "mixEM"
+  a
+}
+```
+
+
+```{r histo.graf2 ,figure-side, echo=FALSE, fig.align='center',fig.show="hold",fig.dim=c(3,3), fig.cap="\\label{fig:histo.graf2}Distribución de las cooperativas por fondos disponibles y depósitos a 90 días", message=FALSE, warning=FALSE,cache.comments=FALSE,error=FALSE,fig.showtext=FALSE}
+
+set.seed(112)
+em<-mvnormalmixEM(cuentas1[,c("bal_saldo","dep_90_dias")])
+mus<-rbind(em$mu[[1]],em$mu[[2]])
+sigmas<-rbind(em$sigma[[1]],em$sigma[[2]])
+
+
+mod <- densityMclust(cuentas1[,c("bal_saldo","dep_90_dias")],plot=F)
+puntos<-cuentas1[,c("bal_saldo","dep_90_dias")]
+par(mar = c(4, 4, .1, .1))
+plot(mod, what = "density", type = "hdr",data=puntos)
+plot(mod, what = "density", type = "persp")
+
+```
+
+A partir del algoritmo EM encontramos los parámetros del distribución normal multivariante. A continuación se presentan las medias y matrices de varianza y covariaza de la subpoblación.
+
+$$\mu_1= [6.86,31.47] \quad \quad \mu_2=[11.55 48.27]$$
+
+$$
+\Sigma_1=\begin{bmatrix} 
+14.31 & 68.25 \\ 
+68.25 & 379.82\\ 
+\end{bmatrix}
+$$
+$$\Sigma_2=\begin{bmatrix} 
+0.021 & 1.219 \\ 
+1.219 &  91.52 \\ 
+\end{bmatrix}
+$$
+Además vemos las proporciones de pertencer a cada una de las poblaciones es de 
+$$\lambda_1=0.89\quad \quad y \quad \quad \lambda_2=0.103$$
+
+Del procedimiento anterior hemos encontrado una distribución exacta (mixtura norma multivariante) que describe la distribución entre los fondos disponibles y depósitos a 90 días. En lo posterior, a partir de la simulación por montecarlo simularemos las cuentas mencionadas anteriormente que para calcular el indicador de Liquidez. También encontraremos la distribución por bootstrap para comparar estas distribuciones.
+
+A continuación, en el gráfico \ref{fig:histo.graf} vemos la distribución del indicador de liquidez por montecarlo y bootstrap. Del indicador de liquidez por montecarlo vemos que el valor del indicador esperado  es de 23,90 % y se tiene un error estándar de 0.056. Por otra parte de la simulación por bootstrap vemos que la media es 23.83% , el error estándar es de 0.045 , el sesgo de 0.00067.
+
+```{r histo.graf, echo=FALSE, fig.align='center', fig.cap="\\label{fig:histo.graf}Distribución del indicador de Liquidez", fig.dim=c(7.5,3.5), message=FALSE, warning=FALSE}
+
+#Montecarlo
+dat<-rmvnorm.mixt(5000, mus=mus, Sigmas=sigmas, props=as.vector(em$lambda))
+indicador_sim<-(dat[,1]/dat[,2])*100
+#quantile(indicador_sim,1-0.05)
+#hist(indicador_sim)
+
+#Bootstrap
+cuentas11b<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+m<-matrix(0,nrow=5000,ncol = nrow(cuentas11b))
+for(i in 1:5000) 
+{
+  ind<-sample(1:nrow(cuentas11b),nrow(cuentas11b))
+  m[i,]<-(cuentas11b[ind,bal_saldo]/cuentas11b[ind,dep_90_dias])*100
+}
+
+qmontecarlo<-quantile(indicador_sim,1-0.05)        #Comparar con 
+qbootstrap<- quantile(m,1-0.05)
+# mean(indicador_sim)
+# var(indicador_sim)
+# mean(m)
+
+plot(density(m,bw = 2.9),col='blue',ylim=c(0,0.1),main = "Distribucion del Indicador de Liquidez") #Montecarlo
+lines(density(indicador_sim,bw = 2.5),col="darkorange")#Remuestreo
+legend("topleft",legend=c("Bootstrap", "Montecarlo"),
+       col=c("blue", "darkorange"), lty=1, cex=0.8)
+
+```
+
+Los intervalos de confianza por Montecarlo y bootstrap usando el percentil t para la media del indicador se muestran a continuación. Se observa que ligeramente el intervalo por bootstrap son mas angosto que por Montecarlo.
+
+
+Método    |Inferior |Superior
+----------|---------|--------
+Montecarlo| 18.52   |21.88
+Bootstrap | 18.89   |21.00      
+
+
+\subsection{Mínimo indicador de liquidez}
+\label{mínimoidicador}
+
+De este estudio se requiere  analizar los mínimos valores que puede tomar el indicador de liquidez considerando las cooperativas más estables.
+
+Así también hemos simulado la distribución del mínimo del indicador de liquidez. Los intervalos se presentan a continución
+
+
+```{r histo.graf3, echo=FALSE, fig.align='center', fig.cap="\\label{fig:histo.graf}Distribución del indicador de Liquidez", fig.dim=c(7.5,3.5), message=FALSE, warning=FALSE}
+
+#Montecarlo
+dat<-rmvnorm.mixt(1000, mus=mus, Sigmas=sigmas, props<-as.vector(em$lambda))
+indicador_sim<-(dat[,1]/dat[,2])*100
+mont_indicador_minimo<-matrix(0,nrow=1000,ncol=1000)
+minimo<-vector(length = 1000)
+for(i in 1:1000)
+{
+dat<-rmvnorm.mixt(1000, mus=mus, Sigmas=sigmas, props<-as.vector(em$lambda))
+mont_indicador_minimo[,i]<-(dat[,1]/dat[,2])*100
+
+minimo[i]<-apply(mont_indicador_minimo,2,min)
+}
+
+
+
+
+#Bootstrap
+cuentas11b<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+m<-matrix(0,nrow=1000,ncol = nrow(cuentas11b))
+minimo<-vector(length = 1000)
+for(i in 1:1000) 
+{
+  ind<-sample(1:nrow(cuentas11b),nrow(cuentas11b))
+  m[i,]<-(cuentas11b[ind,bal_saldo]/cuentas11b[ind,dep_90_dias])*100
+  minimo[i]<-min(m[i,])
+}
+
+qmontecarlo<-quantile(indicador_sim,1-0.05)        
+qbootstrap<- quantile(m,1-0.05)
+
+# plot(density(m,bw = 2.9),col='blue',ylim=c(0,0.1),main = "Distribucion del Indicador de Liquidez") #Montecarlo
+# lines(density(indicador_sim,bw = 2.5),col="darkorange")#Remuestreo
+# legend("topleft",legend=c("Bootstrap", "Montecarlo"),
+#        col=c("blue", "darkorange"), lty=1, cex=0.8)
+
+
+
+```
+
+
+
+Método    |Inferior |Superior
+----------|---------|--------
+Montecarlo| 13.00   |16.97
+Bootstrap | 13.88   |16.85      
+
+
+Considerando el mínimo del indicador, a partir de la simulación por Montecarlo se ve que la precisión es del 0.015. Por bootstrap se ve que el sesgo es 0.010 y el error estándar es 0.016.
+Por bootstrap se ve que el sesgo es cercano a cero, lo que significaría que la esperanza del parámetro coincide con el valor real.
+
+De esto conculimos que el 95% de las veces el mínimo indicador de las cooperativas con estas características será entre el 13,8% y el 16.9%. Las cooperativas que están con liquidez mínima respecto a diciembre 2023 son:
+Santa Rosa con una liquidez del 12%. En efecto de acuerdo a reuniones mantenidas con la cooperativa ha tenido un agravante más que ha sido el paro que se de dio de Junio del año pasado. Sus principales clientes son camaroneros y bananeros que por el bloqueo de las vías no lograron comercializar sus productos; por esta razón se retrasaron en sus el pago de sus créditos, lo que ha hecho que la cooperativa esté ajustada en distribución de su monto para colocación.
+Vemos también que la cooperativa COOPAD tiene un indicador del 11% menor a los intervalos del mínimo de la liquidez. En general esta entidad ha tenido que provisionar más recursos por el cambio a par 30, lo que ha hecho que su indicador de liquidez.
+
+De las cooperativas socias las que mantienen su indicador de liquidez en los valores mínimos son:
+Riobamba (14%), Cacpe Biblian(13,69%), Multiempresarial(13,80%), Artesanos (16%)
+
+
+```{r intervalos_convianza,echo=FALSE,fig.align='center',fig.dim = c(8, 3.5)}
+
+set.seed(0123)
+datos_indicador<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+statistic <- function(data, i){
+  remuestra <- data[i]
+  c(min(remuestra))
+}
+res.boot <- boot(datos_indicador$indicador, statistic, R = 10000)
+
+intervalo<-boot.ci(res.boot,type = "perc",conf = 0.95)
+
+
+
+library(RODBC)
+conexion <- odbcConnect("OLAP BALANCES",uid="pguayasamin", pwd = "Financoop23")
+fecha1<-"2023-01-31"
+fecha2<-"2023-01-31"
+
+sqlr <- paste0("SELECT 
+  c.coo_nombre_cooperativa,
+	ind.ind_nombre,
+	t.tem_fecha,
+  i.valor_indicador*100,
+  s.seg_codigo_seg_seps,
+  c.coo_tipo_cooperativa
+FROM ap_fact_indicadores i
+    ,ap_dim_indicador ind
+    ,ap_dim_temporalidad t
+    ,ap_dim_cooperativa c
+    ,ap_dim_segmento s
+WHERE i.coo_codigo = c.coo_codigo
+AND   i.tem_codigo = t.tem_codigo
+AND   i.ind_codigo = ind.ind_codigo
+AND   s.seg_codigo = i.seg_codigo
+AND s.seg_codigo=i.seg_codigo
+AND   ind.ind_codigo_interno IN ('2')
+AND   t.tem_fecha BETWEEN '",fecha1,"' AND '",fecha2,"'
+--AND c.coo_tipo_cooperativa = 'SOCIAS'
+--AND s.seg_codigo_seg_seps IN ('1')
+--AND   c.coo_ruc = '1891744214001'
+ORDER BY t.tem_fecha")
+
+evol <- sqlQuery(conexion,sqlr)
+colnames(evol)<-c("coac","nombre_indicador","fecha","indicador","segmento","tipo_coac")
+evol<-data.table(evol)
+nombres<-cuentas1$coo_nombre
+deterioro_liq1<-evol[coac%in%nombres , ]
+deterioro_liq1_res<-deterioro_liq1[indicador>13.90 & indicador<18.93] 
+# kable(deterioro_liq1_res)
+
+
+```
+
+
+\section {Conclusiones y Recomendaciones}
+\label{conclurec}
+
+\subsection{Conclusiones}
+
+Se ha tomado un grupo de cooperativas que se considera el indicador de liquidez dentro de los parámetros aceptables es decir entre el 14% y 40%. Este margen se considera adecuado para las cooperativas para que tengan capacidad para afrontar sus obligacaciones financieras y la colocación mensual. Este grupo de cooperativas tiene dos subpoblaciones que tiene una districión como lo es la mixtura  de normales. A partir de Montecarlo se ha procedido a simular la relación que existe entre la distribución entre los fondos disponibles y depósitos a 90 días. También se procedio a partir de remuestreo bootstrap encontrar la distribución de dicho indicador. Se observa que el intervalo de confianza al 95% del mínimo de la liquidez tanto con bootstrap y montecarlo son semejantes. Para simular por Monte Carlo se requiere conocer la distribución, muchas veces ajustar los datos a una distribución puede complicarse y en ocasiones no se puede encontrar no es tan fácil encontrar la distribución teórica de los datos, por esta razón bootstrap se convierte en una buena alternativa puesto que nos permite trabajar con muestras pequeñas y además simplifica el procedimiento de encontrar la distribución de los datos. Además puede ser de gran utilidad si el estadístico del que se quiere encontrar la distribución es complejo.
+
+Para este análisis se han tomado en cuenta cooperativas del segmento 1 y 2 que han mantenido su liquidez dentro de los niveles normativos. Cabe mencionalr que para muchos análisis únicamente se toman como referencia a cooperativas de segmento 1 por ser tener mayores niveles de activos; sin embargo se ven que existen cooperativas medianas que manejan su liquidez en forma eficiente.
+
+Para este análisis, es decir, para monitorear las cooperativas que han alcanzado los niveles mínimos de liquidez, se han considerado cooperativas homogéneas, esto es que tiene su principal colocación en microcrédito y además son abiertas puesto que las cooperativas de educadores que son cerradas, por su naturaleza mantienen niveles más altos de liquidez. Otro caso excepcional es la cooperativa Francisco de Asis pues se dedica al negocio inmobiliario.
+
+\subsection{Recomendación}
+
+Para este conjunto de datos se ha seleccionado las cooperativas que se consideran que han tenido un comportamiento estable y dentro de los parámetros de liquidez. Sería interesante analizar las cooperativas con diferentes enfoques, esto es, agrupando cooperativas desde diferentes aspectos, por ejemplo, agrupándolas de acuerdo a un indicador de riesgo como lo es la cartera castigada.
+
+# Anexos
+
+```{r lectura11,echo=TRUE, eval=FALSE,fig.align='center',fig.dim = c(8, 3.5)}
+con_sql <- odbcConnect("OLTP BALANCES",uid="pguayasamin", pwd = "Financoop23")
+sqlr <- paste0("SELECT bal_nombre_cuenta,bal_ruc,coo_nombre,bal_saldo,c.coo_segmento_seps
+FROM 
+tp_balances b
+,tp_cooperativa c
+WHERE b.bal_fecha_corte  = '2022-12-31'
+AND   b.bal_nombre_cuenta ='FONDOS DISPONIBLES'
+--AND b.bal_codigo= '11'
+AND  b.bal_ruc=c.coo_ruc
+--AND c.coo_segmento_seps IN ('1','2')
+ORDER BY coo_nombre")
+fond_disp<- sqlQuery(con_sql,sqlr)
+fond_disp<-data.table(fond_disp)
+
+
+sqlr <- paste0("SELECT bal_nombre_cuenta,bal_ruc,b.bal_codigo,coo_nombre,
+b.bal_saldo,c.coo_segmento_seps
+FROM 
+tp_balances b
+,tp_cooperativa c
+WHERE b.bal_fecha_corte  = '2022-12-31'
+--AND   b.bal_nombre_cuenta='Depositos a la vista'
+AND b.bal_codigo IN ('2101','2102','210305','210310')
+AND  b.bal_ruc=c.coo_ruc
+--AND c.coo_segmento_seps IN ('1','2')
+ORDER BY coo_nombre")
+
+dep_vista<- sqlQuery(con_sql,sqlr)
+dep_vista<-data.table(dep_vista)
+dep_vista<-dep_vista[bal_saldo>0]
+dep_vista2<-dep_vista%>%group_by(coo_nombre)%>%summarise(dep_90_dias=sum(bal_saldo))
+
+
+fond_disp<-data.table(fond_disp)
+fond_disp1<-fond_disp[bal_saldo!=0 & bal_saldo>1656.3523,]
+dep_vista<-data.table(dep_vista)
+dep_vista1<-dep_vista[bal_saldo>0]
+dep_vista2<-dep_vista%>%group_by(coo_nombre)%>%summarise(dep_90_dias=sum(bal_saldo))
+
+datos<-merge(fond_disp1,dep_vista2)
+d<-datos%>%mutate(indicador=(bal_saldo/dep_90_dias)*100)
+
+
+
+
+cuentas1<-d[bal_saldo>2e+04 & bal_saldo<6e+04 & dep_90_dias>1.34e+04 & dep_90_dias<2.7e+05]
+
+
+x_c <- cut(cuentas1$bal_saldo, 4)
+y_c <- cut(cuentas1$dep_90_dias, 4)
+
+z <- table(x_c, y_c)
+
+```
+
+
+```{r histo.graf11, echo=TRUE,eval=FALSE, fig.align='center', fig.cap="\\label{fig:histo.graf1}Distribución de las cooperativas por fondos disponibles y depósitos a 90 días", fig.dim=c(7,4), message=FALSE, warning=FALSE, width=7}
+
+hist3D(z=z, border="black",zlim=c(0,15), theta=40, phi=40, 
+        axes=TRUE,label=TRUE, nticks=3,
+        ticktype="detailed", space=0.1, lighting=TRUE, 
+       light="diffuse", shade=0.6,xlab = "Fondos Disponibles", ylab = "Dep. vista", zlab =    "Frecuencia")
+```
+
+```{r test_ad1,echo=TRUE,eval=FALSE,fig.align='center',fig.dim = c(8, 3.5),warning=FALSE}
+set.seed(112)
+data<-cuentas11[,c("bal_saldo","dep_90_dias")]
+
+if (!is.data.frame(data) && !is.matrix(data)) 
+  stop('data supplied must be either of class \"data frame\" or \"matrix\"')
+  if (dim(data)[2] < 2 || is.null(dim(data))) 
+  {stop("data dimesion has to be more than 1")}
+  if (dim(data)[1] < 3) {stop("not enough data for assessing mvn")}
+  data.name <- deparse(substitute(data))
+  xp <- as.matrix(data)
+  p <- dim(xp)[2]
+  n <- dim(xp)[1]
+  ## getting MLEs...
+  s.mean <- colMeans(xp)
+  s.cov <- (n-1)/n*cov(xp)
+  s.cov.inv <- solve(s.cov) # inverse matrix of S (matrix of sample covariances)
+  D <- rep(NA,n) # vector of (Xi-mu)'S^-1(Xi-mu)...
+  for (j in 1:n)
+    D[j] <- t(xp[j,]-s.mean)%*%(s.cov.inv%*%(xp[j,]-s.mean))
+  D.or <- sort(D) ## get ordered statistics
+  Gp <- pchisq(D.or,df=p)
+  ## getting the value of A-D test...
+  ind <- c(1:n)
+  an <- (2*ind-1)*(log(Gp[ind])+log(1 - Gp[n+1-ind]))
+  AD <- -n - sum(an) / n
+  ## getting the p-value...
+  N <- 1e4
+  U <- rep(0,N) ## initializing values of the AD test
+  for (i in 1:N) { ## loop through N reps
+    dat<-rmvnorm.mixt(1000, mus=mus, Sigmas=sigmapob, props=lambdapob)
+    mean1 <- colMeans(dat)
+    cov1 <- (n-1)/n*cov(dat)
+    cov.inv <- solve(cov1) # inverse matrix of S (matrix of sample covariances)
+    D <- rep(NA,n) # vector of (Xi-mu)'S^-1(Xi-mu)...
+    for (j in 1:n)
+      D[j] <- t(data[j,]-mean1)%*%(cov.inv%*%(data[j,]-mean1))
+    Gp <- pchisq(sort(D),df=p)
+    ## getting the value of A-D test...
+    an <- (2*ind-1)*(log(Gp[ind])+log(1 - Gp[n+1-ind]))
+    U[i] <- -n - sum(an) / n
+  }
+  p.value <- (sum(U >= AD)+1)/(N+1)
+
+```
+
+
+```{r histo.graf21 ,figure-side, echo=TRUE, eval=FALSE, fig.align='center',fig.show="hold",fig.dim=c(3,3), fig.cap="\\label{fig:histo.graf2}Distribución de las cooperativas por fondos disponibles y depósitos a 90 días", message=FALSE, warning=FALSE,cache.comments=FALSE,error=FALSE,fig.showtext=FALSE}
+
+set.seed(112)
+em<-mvnormalmixEM(cuentas1[,c("bal_saldo","dep_90_dias")])
+mus<-rbind(em$mu[[1]],em$mu[[2]])
+sigmas<-rbind(em$sigma[[1]],em$sigma[[2]])
+
+
+mod <- densityMclust(cuentas1[,c("bal_saldo","dep_90_dias")],plot=F)
+puntos<-cuentas1[,c("bal_saldo","dep_90_dias")]
+par(mar = c(4, 4, .1, .1))
+plot(mod, what = "density", type = "hdr",data=puntos)
+plot(mod, what = "density", type = "persp")
+
+```
+
+```{r histo.graf112, echo=TRUE,eval=FALSE,fig.align='center', fig.cap="\\label{fig:histo.graf}Distribución del indicador de Liquidez", fig.dim=c(7.5,3.5), message=FALSE, warning=FALSE}
+
+#Montecarlo
+dat<-rmvnorm.mixt(5000, mus=mus, Sigmas=sigmas, props=as.vector(em$lambda))
+indicador_sim<-(dat[,1]/dat[,2])*100
+media<-vector(length = 5000)
+for(i in 1:5000)
+{
+media[i]<-mean(indicador_sim[,i])
+}
+quantile(media,1-0.05)
+mean(media)
+var(media)
+#hist(indicador_sim)
+
+#Bootstrap
+cuentas11b<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+m<-matrix(0,nrow=5000,ncol = nrow(cuentas11b))
+
+for(i in 1:5000) 
+{
+  ind<-sample(1:nrow(cuentas11b),nrow(cuentas11b))
+  m[i,]<-(cuentas11b[ind,bal_saldo]/cuentas11b[ind,dep_90_dias])*100
+  }
+
+qmontecarlo<-quantile(indicador_sim,0.05)        #Comparar con 
+qbootstrap<- quantile(m,0.05)
+
+plot(density(m,bw = 2.9),col='blue',ylim=c(0,0.1),
+     main = "Distribucion del Indicador de Liquidez") #Montecarlo
+lines(density(indicador_sim,bw = 2.5),col="darkorange")#Remuestreo
+legend("topleft",legend=c("Bootstrap", "Montecarlo"),
+       col=c("blue", "darkorange"), lty=1, cex=0.8)
+
+```
+
+```{r histo.graf31, echo=TRUE,eval=FALSE, fig.align='center', fig.cap="\\label{fig:histo.graf}Distribución del indicador de Liquidez", fig.dim=c(7.5,3.5), message=FALSE, warning=FALSE}
+
+#Montecarlo
+dat<-rmvnorm.mixt(1000, mus=mus, Sigmas=sigmas, props<-as.vector(em$lambda))
+indicador_sim<-(dat[,1]/dat[,2])*100
+mont_indicador_minimo<-matrix(0,nrow=1000,ncol=1000)
+minimo<-vector(length = 1000)
+for(i in 1:1000)
+{
+dat<-rmvnorm.mixt(1000, mus=mus, Sigmas=sigmas, props<-as.vector(em$lambda))
+mont_indicador_minimo[,i]<-(dat[,1]/dat[,2])*100
+
+minimo[i]<-apply(mont_indicador_minimo,2,min)
+}
+
+
+
+#Bootstrap
+cuentas11b<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+m<-matrix(0,nrow=1000,ncol = nrow(cuentas11b))
+minimo<-vector(length = 1000)
+for(i in 1:1000) 
+{
+  ind<-sample(1:nrow(cuentas11b),nrow(cuentas11b))
+  m[i,]<-(cuentas11b[ind,bal_saldo]/cuentas11b[ind,dep_90_dias])*100
+  minimo[i]<-min(m[i,])
+}
+
+qmontecarlo<-quantile(indicador_sim,1-0.05)        
+qbootstrap<- quantile(m,1-0.05)
+
+```
+
+
+```{r intervalos_convianza1,echo=TRUE,eval=FALSE,fig.align='center',fig.dim = c(8, 3.5)}
+
+set.seed(0123)
+datos_indicador<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+statistic <- function(data, i){
+  remuestra <- data[i]
+  c(mean(remuestra))
+}
+res.boot <- boot(datos_indicador$indicador, statistic, R = 10000)
+
+intervalo_media<-boot.ci(res.boot,type = "perc",conf = 0.95)
+intervalo_media
+
+
+
+set.seed(0123)
+datos_indicador<-cuentas1%>%mutate(indicador=bal_saldo/dep_90_dias)
+statistic <- function(data, i){
+  remuestra <- data[i]
+  c(min(remuestra))
+}
+res.boot <- boot(datos_indicador$indicador, statistic, R = 10000)
+
+intervalo_minimo<-boot.ci(res.boot,type = "perc",conf = 0.95)
+intervalo_minimo
+
+
+library(RODBC)
+conexion <- odbcConnect("OLAP BALANCES",uid="pguayasamin", pwd = "Financoop23")
+fecha1<-"2023-01-31"
+fecha2<-"2023-01-31"
+
+sqlr <- paste0("SELECT 
+  c.coo_nombre_cooperativa,
+	ind.ind_nombre,
+	t.tem_fecha,
+  i.valor_indicador*100,
+  s.seg_codigo_seg_seps,
+  c.coo_tipo_cooperativa
+FROM ap_fact_indicadores i
+    ,ap_dim_indicador ind
+    ,ap_dim_temporalidad t
+    ,ap_dim_cooperativa c
+    ,ap_dim_segmento s
+WHERE i.coo_codigo = c.coo_codigo
+AND   i.tem_codigo = t.tem_codigo
+AND   i.ind_codigo = ind.ind_codigo
+AND   s.seg_codigo = i.seg_codigo
+AND s.seg_codigo=i.seg_codigo
+AND   ind.ind_codigo_interno IN ('2')
+AND   t.tem_fecha BETWEEN '",fecha1,"' AND '",fecha2,"'
+--AND c.coo_tipo_cooperativa = 'SOCIAS'
+--AND s.seg_codigo_seg_seps IN ('1')
+--AND   c.coo_ruc = '1891744214001'
+ORDER BY t.tem_fecha")
+
+evol <- sqlQuery(conexion,sqlr)
+colnames(evol)<-c("coac","nombre_indicador","fecha","indicador","segmento","tipo_coac")
+evol<-data.table(evol)
+nombres<-cuentas1$coo_nombre
+deterioro_liq1<-evol[coac%in%nombres , ]
+deterioro_liq1_res<-deterioro_liq1[indicador>13.90 & indicador<18.93] 
+# kable(deterioro_liq1_res)
+# save.image("datos13.RData")
+
+```
+
+# Referencias

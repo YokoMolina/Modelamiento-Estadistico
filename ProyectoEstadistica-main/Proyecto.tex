@@ -1,0 +1,1209 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{amsmath,amssymb,amsthm,textcomp}
+\usepackage[mathscr]{euscript}
+\usepackage{enumerate}
+\usepackage{bbm}
+\usepackage{multicol, float}
+\renewcommand{\contentsname}{Índice}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{titlepage}
+\vbox{ }
+\vbox{ }
+\begin{center}
+\vspace{-1cm}
+\includegraphics[width=0.25\textwidth]{LOGO_EPN2.eps}\\[1cm]
+\textsc{\huge Escuela Politécnica Nacional}\\[1.3cm]
+\textsc{\LARGE Estadística Matemática}\\[0.3cm]
+
+\vbox{ }
+\rule{\linewidth}{1.5pt}
+\vspace{0.2cm}
+\rule{\linewidth}{0.75pt}\\[0.4cm]
+{ \LARGE \bfseries Simulación Montecarlo y Bootstrap: Indicador de masa corporal (IMC) }\\[0.75cm]
+\rule{\linewidth}{0.75pt}\vspace{-0.25cm}
+\rule{\linewidth}{1.5pt}\\[0.5cm]
+\begin{minipage}{10cm}
+\begin{center}
+
+\textbf{\large Realizado por:}\\[0.5cm]
+\vspace{0.1cm}
+  \text{\large Echanique Muñoz Debbie Elizabeth}\\[0.5cm]
+  \text{\large Molina Morales Geoconda Dennisse}\\[0.5cm]
+  \text{\large Encarnación Apolo Milton Fabián}\\[0.5cm]
+\end{center} 
+\end{minipage}
+\vfill
+\begin{minipage}{8cm}
+\vspace{1cm}
+\end{minipage}
+{\large \textbf{Febrero 2024}}
+\end{center}
+\end{titlepage}
+
+\hypertarget{introducciuxf3n}{%
+\section{Introducción:}\label{introducciuxf3n}}
+
+La Organización Panamericana de la Salud (OPS) y la Organización para la
+Alimentación y la Agricultura de Naciones Unidas (FAO) publicaron que el
+58\% de los habitantes de Latinoamérica sufren de sobrepeso,lo cual se
+debe a la modificación de los patrones alimenticios y el aumento
+excesivo del consumo de alimentos procesados en los últimos años. La ONU
+estima que en el año 2025, 167 millones de personas se verán afectadas
+por sobrepeso. Por otra parte,cabe recalcar que se ha visto una
+disminución del 13\% en la tasa de desnutrición entre los años 1990 y
+2016.
+
+La obesidad al igual que la malnutrición son dos trastornos alimenticios
+que afectan a la población. Para determinar si una persona sufre de
+alguno de estos trastornos uno de lo indicadores más utilizados es el
+indicador de masa corporal,por lo que en el presente trabajo
+estudiaremos la distribución del mismo y estableceremos intervalos que
+nos permitan determinar si una persona tiene un peso adecuado de acuerdo
+a su altura.
+
+\hypertarget{planteamiento-del-problema}{%
+\section{Planteamiento del Problema}\label{planteamiento-del-problema}}
+
+El indicador de masa corporal es una medida internacional que nos
+permite determinar el estado nutricional de una persona, por lo que es
+una herramienta muy útil en la rama de la investigación epidemiológica,
+ya que niveles altos o bajos del IMC se asocian a enfermedades tales
+como:obesidad, desnutrición, enfermedades cardíacas, diabetes de tipo
+2,entre otras. Sin embargo, en las últimas décadas se ha visto un
+descenso en la malnutrición de la población y un aumento de sobrepeso en
+algunas regiones, lo cual afectaría la distribución global del IMC, por
+esta razón se desea establecer intervalos de confianza para la media, el
+mínimo y el máximo del IMC, de tal forma que nos permitan determinar si
+una persona se encuentra dentro del rango normal de peso de acuerdo a su
+altura.
+
+La metodología que se utilizará es simulación por montecarlo para poder
+encontrar la distribución del indicador de masa corporal a partir de las
+alturas y el peso.Luego, se encontrará la distribución por remuestreo
+bootstrap del indicador, para poder obtener la estimación del sesgo,
+precisión y los intervalos de confianza.
+
+\hypertarget{objetivos}{%
+\section{Objetivos}\label{objetivos}}
+
+\hypertarget{objetivo-general}{%
+\subsection{Objetivo General}\label{objetivo-general}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Determinar si el peso de una persona es el adecuado de acuerdo a su
+  altura.
+\end{enumerate}
+
+\hypertarget{objetivos-especuxedficos}{%
+\subsection{Objetivos Específicos:}\label{objetivos-especuxedficos}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Encontrar la distribución del indicador de masa corporal a partir de
+  los pesos y alturas usando la simulación de montecarlo.
+\item
+  Encontrar la distribución del indicador por remuestreo bootstrap.
+\item
+  Determinar los intervalos para el mínimo, máximo y la media del
+  indicador de masa corporal.
+\end{enumerate}
+
+\section{ Metodología}
+
+El indicador IMC es una medida que se utiliza para evaluar el peso
+corporal en relación con la estatura. Así, para determinar el valor
+esperados del IMC, es decir, el promedio esperado del IMC en la base de
+datos seleccionada, se porcedió a utilizar el método Monte Carlo
+Paramétrico y No Paramétrico.
+
+\subsection{Montecarlo}
+
+Montecarlo es una técnica estadística que se utiliza para aproximar
+cantidades desconocidas mediante la generación de números/muestras
+aleatorios.
+
+\subsubsection{Montecarlo Paramétrico}
+
+Para el caso particular del presente proyecto se realizarón los
+siguientees pasos, que son los pasos a seguir al utilizar el Método de
+Montecarlo Paramétrico.
+
+Se ajustó un modelo multinormal bivariado a los datos del IMC
+selecionados, para después generar muestras aleatorias usando las medias
+y las varianzas del modelo ajustado anteriormente.
+
+Con la obtención de las muestras aleatorias se procedió a calcular el
+IMC para cada muestra aleatoria construida para así calcular el promedio
+de estos IMC como la estimación del valor esperado del IMC.
+
+\subsubsection{Monte Carlo NO Paramétrico}
+
+Para este caso del método de Monte Carlo, se generaron muestras
+aleatorias de los datos de IMC existentes sin hacer suposiciones sobre
+su distribución, para ello, se utilizó la función \(sample\)
+implementada en el software R, el cual permite extraer una muestra
+aleatoria de elementos de un conjunto de datos, para después calcular el
+IMC para cada muestra aleatoria generada en el paso anterior, así, se
+calculó el promedio de los IMC anteriores como el valor esperado del
+IMC.
+
+Matemáticamente se puede ver el método de la siguiente forma:
+
+\[
+E[f(X)] \approx \frac{1}{N} \sum_{i=1}^{N} f(x_i)
+\]
+
+\subsection{Bootstrap}
+
+En lugar de hacer suposiciones sobre la distribución subyacente de los
+datos, Bootstrap utiliza los datos observados para aproximar la
+distribución de un estadístico de interés o para realizar inferencias
+sobre los parámetros.
+
+Ell proceso de remuestreo en Bootstrap implica tomar muestras
+aleatorias, con reemplazo, del conjunto de datos original. Es decir, en
+cada iteración del proceso de bootstrap, se seleccionan aleatoriamente
+observaciones del conjunto de datos original y estas observaciones se
+incluyen en la muestra de bootstrap.
+
+Por lo que permite estimar intervalos de confianza, realizar pruebas de
+hipótesis y realizar otras inferencias estadísticas sin depender de
+suposiciones sobre la distribución de los datos.
+
+\subsubsection{Bootstrap Paramétrico}
+
+El bootstrap paramétrico es una técnica de remuestreo que asume que los
+datos provienen de una distribución paramétrica conocida. Supongamos que
+tenemos una muestra \(X_1, X_2, \ldots, X_n\) de una distribución con
+parámetros desconocidos \(\theta\).
+
+\textbf{Ajuste del modelo paramétrico:}
+
+Sea \(f(X; \theta)\) la función de densidad de probabilidad (o función
+de masa de probabilidad) que describe la distribución de los datos
+observados \(X\), donde \(\theta\) es el vector de parámetros a estimar.
+El ajuste del modelo paramétrico implica encontrar los estimadores de
+máxima verosimilitud (MLE) o algún otro método de estimación de los
+parámetros \(\hat{\theta}\).
+
+\[
+\hat{\theta} = \arg\max_{\theta} \prod_{i=1}^{n} f(x_i; \theta)
+\]
+
+\textbf{Remuestreo con reemplazo}:
+
+\[
+X^{*(b)} = \{X^*_{1(b)}, X^*_{2(b)}, \ldots, X^*_{n(b)}\}, \quad b = 1, 2, \ldots, B
+\]
+
+\textbf{Cálculo de la estadística de interés}:
+
+\[
+\theta^{*(b)} = g(X^{*(b)}), \quad b = 1, 2, \ldots, B
+\]
+
+donde \(g(\cdot)\) representa la función que calcula el estadístico de
+interés a partir de la muestra bootstrap.
+
+\textbf{Aproximación de la distribución de remuestreo}:
+
+\[
+\hat{F}_{\theta^*}(\theta) = \frac{1}{B} \sum_{b=1}^{B} I(\theta^{*(b)} \leq \theta)
+\]
+
+donde \(\hat{F}_{\theta^*}(\theta)\) es la función de distribución
+empírica de las estadísticas bootstrap, \(\theta^{*(b)}\) es la
+estadística de interés calculada a partir de la muestra bootstrap \(b\),
+y \(I(\cdot)\) es la función indicadora que toma el valor 1 si la
+condición es verdadera y 0 en caso contrario.
+
+\subsubsection{Bootstrap No Paramétrico}
+
+El bootstrap no paramétrico es una técnica de remuestreo que no hace
+suposiciones sobre la distribución subyacente de los datos. Para estimar
+el error estándar de un estimador \(\hat{\theta}\) sin suponer una forma
+específica de distribución.
+
+\textbf{Remuestreo con reemplazo}:
+
+\[
+X^{*(b)} = \{X^*_{1(b)}, X^*_{2(b)}, \ldots, X^*_{n(b)}\}, \quad b = 1, 2, \ldots, B
+\]
+
+\textbf{Cálculo de la estadística de interés}:
+
+\[
+\theta^{*(b)} = g(X^{*(b)}), \quad b = 1, 2, \ldots, B
+\]
+
+donde \(g(\cdot)\) representa la función que calcula la estadística de
+interés a partir de la muestra bootstrap.
+
+\textbf{Aproximación de la distribución de remuestreo}:
+
+\[
+\hat{F}_{\theta^*}(\theta) = \frac{1}{B} \sum_{b=1}^{B} I(\theta^{*(b)} \leq \theta)
+\]
+
+donde \(\hat{F}_{\theta^*}(\theta)\) es la función de distribución
+empírica de las estadísticas bootstrap, \(\theta^{*(b)}\) es la
+estadística de interés calculada a partir de la muestra bootstrap \(b\),
+y \(I(\cdot)\) es la función indicadora que toma el valor 1 si la
+condición es verdadera y 0 en caso contrario.
+
+Debido a lo mencionado anteriormente se puede comparar los resultados
+obtenidos mediante Bootstrap con los obtenidos mediante Monte Carlo
+calculando el sesgo y la precisión de la estimación utilizando
+Bootstrap, para luego, compara estos resultados con los obtenidos
+mediante Monte Carlo, se calcula intervalos de confianza utilizando los
+dos métodos y se compara su tamaño y cobertura. Esto permite evaluar la
+concordancia entre los métodos en la estimación de la incertidumbre
+asociada con el estadístico de interés.
+
+\subsection{Sesgo y varianza}
+
+Consideremos \(\hat{\theta}=T(L)\), y \(F\) la distribución conocida
+antes mencionada, se define el estadístico: \[
+R(L,F)=\hat{\theta}-\theta
+\] Así, matemáticamente se desea encontrar \[
+Sesgo(\hat{\theta})=E(\hat{\theta}-\theta)=E(R)\\
+Var(\theta)=Var(\hat{\theta}-\theta)
+\] Para la implementación del presente proyecto se realizó, la técnica
+Bootstrap para aproximar el sesgo \(Sesgo^{*}(\hat{\theta^{*}})\) y
+\(Var^{*}(\hat{\theta^{*}})\) de la manera previamente mencionada.
+
+\subsection{Intervalos de confianza}
+
+Una parte fundamental de cualquier estudio es la creación de los
+intervalos de confianza para los parámetros de interés, para ello se
+utilizó el método percentil.
+
+\subsubsection{Método percentil}
+
+El método percentil-t se utiliza para construir intervalos de confianza
+cuando la distribución de los datos no es normal o cuando el tamaño de
+la muestra es pequeño, lo cual, es justamente lo que los datos
+seleccionados requieren pues se ajustó una mixtura de 3 normales.
+
+Se basa en la distribución t de Student y utiliza los percentiles de
+esta distribución para determinar los límites del intervalo de
+confianza.
+
+Así, la fórmula para calcular el intervalo de confianza utilizando el
+método percentil-t es:
+
+\[
+IC = \bar{x} \pm t_{\frac{\alpha}{2}, \, n-1} \times \frac{s}{\sqrt{n}}
+\]
+
+donde \(\bar{x}\) es la media muestral, \(s\) es la desviación estándar
+muestral, \(n\) es el tamaño de la muestra y
+\(t_{\frac{\alpha}{2}, \, n-1}\) es el valor crítico de la distribución
+t de Student con \(n-1\) grados de libertad y un nivel de significancia
+\(\alpha\).
+
+\subsection{Contraste de hipótesis}
+
+Un contraste de hipótesis es una prueba estadística utilizada para tomar
+decisiones sobre una afirmación basada en datos observados.
+
+Involucra la formulación de una hipótesis nula \((H_0)\) y una hipótesis
+alternativa \((H_1)\) , y la recolección de datos para determinar si hay
+suficiente evidencia para rechazar la hipótesis nula.
+
+Como idea para contrastar pruebas de hipótesis, el estadístico de
+contraste se calcula a partir de los datos y se compara con un valor
+crítico o un p-valor para tomar una decisión sobre la hipótesis nula.
+
+Para el presente proyecto se realizó un contraste de hipótesis para la
+media del indicador IMC.
+
+\textbf{Hipótesis nula y alternativa}
+
+\begin{itemize}
+\item
+  La hipótesis nula (\(H_0\)) establece que no hay diferencia
+  significativa entre la media poblacional y un valor específico. Por
+  ejemplo, \(H_0: \mu = \mu_0\), donde \(\mu\) es la media poblacional y
+  \(\mu_0\) es el valor hipotético que estamos contrastando.
+\item
+  La hipótesis alternativa (\(H_1\)) puede ser de dos tipos:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Si estamos interesados en detectar si la media poblacional es mayor
+    que un valor específico, entonces \(H_1: \mu > \mu_0\).
+  \item
+    Si estamos interesados en detectar si la media poblacional es menor
+    que un valor específico, entonces \(H_1: \mu < \mu_0\).
+  \item
+    Si estamos interesados en detectar si la media poblacional es
+    diferente de un valor específico, entonces \(H_1: \mu \neq \mu_0\).
+  \end{itemize}
+\end{itemize}
+
+\textbf{Estadística de contraste}
+
+\begin{itemize}
+\tightlist
+\item
+  La estadística de contraste se basa en la muestra de datos y se
+  utiliza para evaluar qué tan probable es obtener los datos observados
+  bajo la hipótesis nula.
+\item
+  Para contrastar sobre la media, una estadística común es la t de
+  Student, que se calcula como: \[
+  t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}
+  \] donde \(\bar{x}\) es la media muestral, \(s\) es la desviación
+  estándar muestral y \(n\) es el tamaño de la muestra.
+\end{itemize}
+
+\textbf{Decisión}
+
+\begin{itemize}
+\tightlist
+\item
+  Utilizamos la estadística de contraste para calcular el valor p o para
+  compararlo con un valor crítico.
+\item
+  Si el valor p es menor que el nivel de significancia \(\alpha\),
+  rechazamos la hipótesis nula y concluimos que hay evidencia suficiente
+  para afirmar la hipótesis alternativa.
+\item
+  Si la estadística de contraste cae dentro de la región de rechazo
+  determinada por el valor crítico, también rechazamos la hipótesis
+  nula.
+\end{itemize}
+
+\subsection{Algoritmo Expectation-Maximization}
+
+(EM)
+
+El \textbf{algoritmo EM} es una técnica iterativa utilizada para estimar
+los parámetros de un modelo estadístico cuando los datos están
+incompletos o involucran variables latentes no observadas. A menudo se
+aplica en situaciones donde se trabaja con \textbf{distribuciones
+mixtas}, como las que provienen de la mezcla de distribuciones normales.
+
+\subsubsection{Pasos Fundamentales:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Expectativa (E-Step)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Se inicia con una \textbf{estimación inicial} de los parámetros del
+    modelo.
+  \item
+    Se crea una \textbf{distribución de probabilidad} basada en estos
+    parámetros.
+  \item
+    Esta etapa se conoce como el \textbf{paso E} o ``expectativa''.
+  \end{itemize}
+\item
+  \textbf{Maximización (M-Step)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Se introducen los \textbf{datos observados} en el modelo.
+  \item
+    La distribución de probabilidad del paso E se \textbf{ajusta} para
+    incorporar los nuevos datos.
+  \item
+    Esta etapa se llama el \textbf{paso M}.
+  \end{itemize}
+\item
+  \textbf{Iteración}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Los pasos 1 y 2 se repiten hasta que se alcance la
+    \textbf{convergencia} (es decir, cuando la distribución deja de
+    cambiar significativamente).
+  \end{itemize}
+\item
+  \textbf{Convergencia}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El algoritmo EM mejora iterativamente la estimación de los
+    parámetros.
+  \item
+    A veces, se requieren \textbf{inicios aleatorios} para encontrar el
+    mejor modelo, ya que el algoritmo puede converger hacia un máximo
+    local en lugar del máximo global óptimo.
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Base Matemática:}
+
+\begin{enumerate}
+  \item **Función de Verosimilitud Completa (Full Likelihood)**:
+  
+  - La función de verosimilitud completa representa la probabilidad conjunta de los datos observados y las características no observadas.
+  
+    - Se denota como $L(\theta)$, donde $\theta$ representa los parámetros del modelo.
+    
+    - La expresión general es:
+    
+    $$L(\theta) = P(\text{datos observados}, \text{características no observadas} | \theta)$$
+    \item **Función de Verosimilitud Marginal (Marginal Likelihood)**:
+    - La función de verosimilitud marginal se obtiene al marginalizar sobre las características no observadas.
+    - Representa la probabilidad de observar solo los datos observados, sin tener en cuenta las características no observadas.
+    - Se denota como $Q(\theta | \theta^{(t)})$, donde $\theta^{(t)}$ es la estimación actual de los parámetros en la iteración $t$.
+    - La expresión es:
+
+    $$Q(\theta | \theta^{(t)}) = \sum_{\text{características no observadas}} P(\text{datos observados}, \text{características no observadas} | \theta)$$
+  \item **Actualización de Parámetros**:
+    - En cada iteración, se actualizan los parámetros del modelo utilizando la función de verosimilitud marginal.
+    - La actualización se realiza mediante la maximización de $Q(\theta | \theta^{(t)})$.
+    - La expresión para actualizar los parámetros $\theta$ es:
+
+    $$\theta^{(t+1)} = \arg\max_{\theta} Q(\theta | \theta^{(t)})$$
+    \item **Convergencia**:
+     - El algoritmo EM continúa iterando hasta que los parámetros convergen a un valor estable.
+    - La convergencia se alcanza cuando los parámetros no cambian significativamente entre las iteraciones.
+  
+\end{enumerate}
+
+\section{Simulación}
+\label{sim}
+
+\textbackslash subsection Considerando las personas que tienen un índice
+de masa corporal (IMC) dentro de un rango normal, es decir dentro de
+18.5 y 24.9. Por tanto se tiene una base de 342 individuos, los cuales
+se pueden representar en los grupos etarios mostrados en el Cuadro 1.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Grupo etario} & \textbf{Porcentaje} \\ \hline
+12-18 años            & 13.16\%             \\ \hline
+19-30 años            & 54.39\%             \\ \hline
+31-60 años            & 32.45\%             \\ \hline
+\end{tabular}
+\caption{Porcentaje de grupo etario para IMC Normal}
+\end{table}
+
+Se ajustará una distribución multivariante para las variables
+\textbf{peso} y \textbf{altura}. Para esto se grafica la distribución
+multivariante en la Figura 1
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{plot1.png}
+\caption{Distribución Multivariante del peso y altura}
+\end{figure}
+
+Mediante la gráfica se puede ver que los datos parecen seguir una
+mixtura de normales multivariantes, para tenerlo más claro se graficará
+en 2 dimensiones la distribución del indicador, como se tiene en la
+Figura 2.
+
+\begin{figure}
+
+{\centering \includegraphics{Proyecto_files/figure-latex/histo.graf2-1} 
+
+}
+
+\caption{\label{fig:graf2}Distribución del peso y altura}\label{fig:histo.graf2}
+\end{figure}
+
+Vemos que probablemente puede existir una mixtura de 3 normales
+multivariantes. Mediante el algoritmo EM se encuentran los parámetros de
+esta distribución. Se presentan las medias de las subpoblaciones
+encontradas:
+
+\[\mu_1=[59.48,1.73]\quad\mu_2=[66.58,1.70]\quad\mu_3=[72.63,1.75]\] Con
+las siguientes matrices de covarianzas:
+
+\[
+\Sigma_1=\begin{bmatrix} 
+20.997 & 0.256 \\ 
+0.256 & 0.003\\ 
+\end{bmatrix}
+\]
+
+\[
+\Sigma_2=\begin{bmatrix} 
+29.536 & 0.218 \\ 
+0.218 & 0.002\\ 
+\end{bmatrix}
+\]
+
+\[
+\Sigma_3=\begin{bmatrix} 
+4.85 & 0.009 \\ 
+0.009 & 0.0003\\ 
+\end{bmatrix}
+\] Y los pesos de la subpoblaciones \(\lambda_1=0.174\),
+\(\lambda_2=0.509\) y \(\lambda_3=0.315\).
+
+Podemos visualizar la densidad encontrada mediante la Figura 3.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{plot2.png}
+\caption{Distribución mixtura normal Multivariante encontrada}
+\end{figure}
+
+Ahora, mediante el Test Anderson-Darling, que fue adaptado para la
+mixtura de distribuciones normales multivariantes se tiene un valor p de
+0.7483, por lo tanto no se rechaza la hipótesis nula. Entonces los datos
+provienen de una distribución de mixturas de normales multivariantes con
+los parámetros estimados.
+
+Con la distribución exacta encontrada, se simula por Montecarlo los
+valores de las variables y se opera para obtener el indicador IMC y
+posteriormente su distribución. También se encontrará la distribución
+del indicador mediante bootstrap y se realiza una comparación. La Figura
+4 muestra la comparación respectiva, además de comparar con la de los
+datos.
+
+\begin{figure}
+
+{\centering \includegraphics{Proyecto_files/figure-latex/histo.graf4-1} 
+
+}
+
+\caption{\label{fig:graf4}Distribución indicador IMC}\label{fig:histo.graf4}
+\end{figure}
+
+Las estimaciones de la media y el sesgo para los dos métodos están dados
+por el siguiente Cuadro:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Estimación} & \textbf{Sesgo} \\ \hline
+Montecarlo      & 22.64392            & -0.0017        \\ \hline
+Bootstrap       & 22.6483             & 0.0026         \\ \hline
+\end{tabular}
+\caption{Estimaciones para la Media}
+\end{table}
+
+Las estimaciones para la varianza se pueden ver en el Cuadro siguiente:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Estimación} & \textbf{Sesgo} \\ \hline
+Montecarlo      & 2.4965           & 0.0013        \\ \hline
+Bootstrap       & 2.4917             & -0.003         \\ \hline
+\end{tabular}
+\caption{Estimaciones para la Varianza}
+\end{table}
+
+Y por último las estimaciones para la desviación estándar están dadas
+por:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Estimación} & \textbf{Sesgo} \\ \hline
+Montecarlo      & 1.5768           & -0.0028        \\ \hline
+Bootstrap       & 1.5776             & -0.0020         \\ \hline
+\end{tabular}
+\caption{Estimaciones para la Desviación estándar}
+\end{table}
+
+Ahora se construyen intervalos de confianza al 95\% de confiabilidad
+para la media por Montecarlo y por el Método percentil-t (bootstrap).
+Los resultados se muestran en el siguiente Cuadro:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Inferior} & \textbf{Superior} \\ \hline
+Montecarlo      & 22.33871          & 22.93689          \\ \hline
+Bootstrap       & 22.46823          & 22.80890          \\ \hline
+\end{tabular}
+\caption{Intervalos de confianza para la media}
+\end{table}
+
+Se tiene además que la precisión por Montecarlo es de 0.0021, y la
+precisión por Bootstrap es de 0.0854. Con esto se puede concluir que el
+95\% de las veces la media del indicador de IMC, debe encontrarse entre
+22.47 y 22.81 Por último se estudiará el siguiente contraste de
+hipótesis:
+
+\[\begin{cases}
+H_0:&\mu=22.64\\
+H_1:&\mu\neq22.64\\
+\end{cases}\]
+
+Para ello, se realizará 5000 pruebas para obtener la proporción de
+valores p, y además se graficará el tamaño del contrastre.
+
+Para Montecarlo se tienen los resultados:
+
+\begin{itemize}
+  \item Proporción de rechazos al 1\%: 0.0656
+  \item Proporción de rechazos al 5\%: 0.1936
+  \item Proporción de rechazos al 10\%: 0.2926
+\end{itemize}
+
+Y el tamaño del contraste está dado por:
+
+\begin{figure}
+
+{\centering \includegraphics{Proyecto_files/figure-latex/histo.graf5-1} 
+
+}
+
+\caption{\label{fig:graf5}Tamaño del Contraste por Montecarlo}\label{fig:histo.graf5}
+\end{figure}
+
+Por lo tanto no rechazamos la hipótesis nula planteada para la media.
+
+Para Bootstrap se tienen los resultados:
+
+\begin{itemize}
+  \item Proporción de rechazos al 1\%: 0.0202
+  \item Proporción de rechazos al 5\%: 0.093
+  \item Proporción de rechazos al 10\%: 0.1634
+\end{itemize}
+
+Y el tamaño del constrate se muestra en la siguiente figura:
+
+\begin{figure}
+
+{\centering \includegraphics{Proyecto_files/figure-latex/histo.graf6-1} 
+
+}
+
+\caption{\label{fig:graf6}Tamaño del Contraste por Boostrap}\label{fig:histo.graf6}
+\end{figure}
+
+De la misma forma, no rechazamos la hipótesis nula.
+
+\subsection{Mínimo del indicador IMC}
+
+Ahora, para analizar los valores mínimos que puede tomar el indicador
+IMC se realiza el procedimiento anterior. Se tienen los siguientes
+intervalos de confianza en la siguiente tabla:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Inferior} & \textbf{Superior}& \textbf{Precisión} \\ \hline
+Montecarlo      & 18.19738          & 19.46157 & 0.004515656          
+\\ \hline
+Bootstrap       & 18.68512          & 18.92915  & 0.05310323       
+\\ \hline
+\end{tabular}
+\caption{Intervalos de confianza para el mínimo IMC}
+\end{table}
+
+\subsection{Máximo del indicador IMC}
+
+Análogo a lo anterior, se encontrará los intervalos de confianza para el
+máximo valor que puede tomar el indicador IMC. Los resultados se
+muestran en la siguiente tabla:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Inferior} & \textbf{Superior}& \textbf{Precisión} \\ \hline
+Montecarlo      & 24.83709          & 26.35412 & 0.005388757          
+\\ \hline
+Bootstrap       & 24.91436          & 24.99417  & 0.02193493       
+\\ \hline
+\end{tabular}
+\caption{Intervalos de confianza para el máximo IMC}
+\end{table}
+
+\hypertarget{bibliografuxeda}{%
+\section{Bibliografía}\label{bibliografuxeda}}
+
+\sloppy
+
+Errandonea, U. (2012). Obesidad y trastornos de alimentación. Revista
+Médica Clínica las Condes, 23(2), 165-171.
+\url{https://doi.org/10.1016/s0716-8640(12)70294-8} \sloppy Gloria, N.
+--. (2023, 15 julio). ¿Qué es el índice de masa corporal y cómo se mide?
+La Buena Nutrición.
+\url{https://labuenanutricion.com/blog/que-es-el-indice-de-masa-corporal-y-como-se-mide/}
+\sloppy Konrad, L. T. F., \& Emilio, C. M. (s. f.). Distribución del
+indice de masa corporal (IMC) y prevalencia de obesidad primaria en
+niños pre-púberes de 6 a 10 años de edad en el distrito de San Martín de
+Porres - Lima.
+\url{http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S1018-130X2003000300002}
+\sloppy Estudian cómo afectan las variaciones en la distribución del IMC
+en los cambios en la prevalencia de obesidad y peso bajo en el mundo
+\textbar{} CIBERISCIII. (s. f.).
+\url{https://www.ciberisciii.es/noticias/estudian-como-afectan-las-variaciones-en-la-distribucion-del-imc-en-los-cambios-en-la-prevalencia-de-obesidad-y-peso-bajo-en-el-mundo}
+\sloppy BBC News Mundo. (2017, 20 enero). El impresionante aumento del
+sobrepeso y la obesidad en América Latina. BBC News Mundo.
+\url{https://www.bbc.com/mundo/noticias-38693438#:~:text=El%20sobrepeso%20en%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20sobrepeso%20en%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20en%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20sus%20siglas%20en%20ingl%C3%A9s%29}%20siglas%20en%20ingl%C3%A9s%29}%20en%20ingl%C3%A9s%29}%20ingl%C3%A9s%29}%C3%A9s%29}%A9s%29}%29}%20sobrepeso%20en%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20en%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20Am%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%C3%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%A9rica%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20Latina%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20se%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20increment%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%C3%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%B3%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20en,Naciones%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20Unidas%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%28FAO%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%2C%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20por%20sus%20siglas%20en%20ingl%C3%A9s%29}%20sus%20siglas%20en%20ingl%C3%A9s%29}%20siglas%20en%20ingl%C3%A9s%29}%20en%20ingl%C3%A9s%29}%20ingl%C3%A9s%29}%C3%A9s%29}%A9s%29}%29
+\sloppy Hay que acabar con la obesidad, un trastorno que afecta a más de
+mil millones de personas. (2022, 9 marzo). Noticias ONU.
+\url{https://news.un.org/es/story/2022/03/1505062#:~:text=Seg%C3%BAn%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%C3%BAn%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%BAn%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20motivos%20de%20sobrepeso%20u%20obesidad}%20de%20sobrepeso%20u%20obesidad}%20sobrepeso%20u%20obesidad}%20u%20obesidad}%20obesidad}%C3%BAn%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%BAn%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20los%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20c%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%C3%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%A1lculos%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20de%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20la%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20Organizaci%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%C3%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%B3n%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%2C%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20la%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20obesidad,peor%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20salud%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20por%20motivos%20de%20sobrepeso%20u%20obesidad}%20motivos%20de%20sobrepeso%20u%20obesidad}%20de%20sobrepeso%20u%20obesidad}%20sobrepeso%20u%20obesidad}%20u%20obesidad}%20obesidad
+
+\section{Anexos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#DATA BMI}
+\NormalTok{data}\OtherTok{\textless{}{-}}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"bmi.csv"}\NormalTok{)}
+\NormalTok{data1}\OtherTok{\textless{}{-}}\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(BmiClass}\SpecialCharTok{==}\StringTok{\textquotesingle{}Normal Weight\textquotesingle{}}\NormalTok{)}
+\FunctionTok{length}\NormalTok{((data1 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Age}\SpecialCharTok{\textless{}=}\DecValTok{18}\NormalTok{))}\SpecialCharTok{$}\NormalTok{Age)}
+\FunctionTok{length}\NormalTok{((data1 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Age}\SpecialCharTok{\textgreater{}=}\DecValTok{19}\SpecialCharTok{\&}\NormalTok{Age}\SpecialCharTok{\textless{}=}\DecValTok{30}\NormalTok{))}\SpecialCharTok{$}\NormalTok{Age)}
+\FunctionTok{length}\NormalTok{((data1 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Age}\SpecialCharTok{\textgreater{}=}\DecValTok{31}\SpecialCharTok{\&}\NormalTok{Age}\SpecialCharTok{\textless{}=}\DecValTok{60}\NormalTok{))}\SpecialCharTok{$}\NormalTok{Age)}
+\NormalTok{peso}\OtherTok{\textless{}{-}}\NormalTok{data1}\SpecialCharTok{$}\NormalTok{Weight}
+\NormalTok{altura}\OtherTok{\textless{}{-}}\NormalTok{data1}\SpecialCharTok{$}\NormalTok{Height}
+\NormalTok{ind1}\OtherTok{\textless{}{-}}\NormalTok{peso}\SpecialCharTok{/}\NormalTok{altura}\SpecialCharTok{\^{}}\DecValTok{2}
+
+\DocumentationTok{\#\#\#PLOT}
+\NormalTok{den3d }\OtherTok{\textless{}{-}} \FunctionTok{kde2d}\NormalTok{(peso, altura)}
+\CommentTok{\#persp(den3d, box=FALSE)}
+\FunctionTok{plot\_ly}\NormalTok{(}\AttributeTok{x=}\NormalTok{den3d}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y=}\NormalTok{den3d}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{z=}\NormalTok{den3d}\SpecialCharTok{$}\NormalTok{z) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{add\_surface}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{layout}\NormalTok{(}\AttributeTok{xaxis=}\FunctionTok{list}\NormalTok{(}\AttributeTok{title=}\StringTok{\textquotesingle{}Peso\textquotesingle{}}\NormalTok{),}\AttributeTok{yaxis=}\FunctionTok{list}\NormalTok{(}\AttributeTok{title=}\StringTok{\textquotesingle{}Altura\textquotesingle{}}\NormalTok{))}
+\NormalTok{data1 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Weight}\SpecialCharTok{/}\NormalTok{Height}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}\SpecialCharTok{+}
+\FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{fill=}\StringTok{"\#69b3a2"}\NormalTok{, }\AttributeTok{color=}\StringTok{"\#e9ecef"}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.8}\NormalTok{)}\SpecialCharTok{+}
+\FunctionTok{labs}\NormalTok{(}\AttributeTok{x=}\StringTok{\textquotesingle{}IMC\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\#ALGORITMO EM}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{matriz}\OtherTok{\textless{}{-}}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(peso,altura),}\AttributeTok{nrow=}\DecValTok{342}\NormalTok{,}\AttributeTok{ncol=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(matriz)}\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Peso\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Altura\textquotesingle{}}\NormalTok{)}
+\NormalTok{em}\OtherTok{\textless{}{-}}\FunctionTok{mvnormalmixEM}\NormalTok{(matriz,}\AttributeTok{k=}\DecValTok{3}\NormalTok{)}
+\NormalTok{mus}\OtherTok{\textless{}{-}}\FunctionTok{rbind}\NormalTok{(em}\SpecialCharTok{$}\NormalTok{mu[[}\DecValTok{1}\NormalTok{]],em}\SpecialCharTok{$}\NormalTok{mu[[}\DecValTok{2}\NormalTok{]],em}\SpecialCharTok{$}\NormalTok{mu[[}\DecValTok{3}\NormalTok{]])}
+\NormalTok{sigmas}\OtherTok{\textless{}{-}}\FunctionTok{rbind}\NormalTok{(em}\SpecialCharTok{$}\NormalTok{sigma[[}\DecValTok{1}\NormalTok{]],em}\SpecialCharTok{$}\NormalTok{sigma[[}\DecValTok{2}\NormalTok{]],em}\SpecialCharTok{$}\NormalTok{sigma[[}\DecValTok{3}\NormalTok{]])}
+\NormalTok{lambdas}\OtherTok{\textless{}{-}}\FunctionTok{as.vector}\NormalTok{(em}\SpecialCharTok{$}\NormalTok{lambda)}
+\CommentTok{\#PLOT EM}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{dat}\OtherTok{\textless{}{-}}\FunctionTok{rmvnorm.mixt}\NormalTok{(}\DecValTok{5000}\NormalTok{, }\AttributeTok{mus=}\NormalTok{mus, }\AttributeTok{Sigmas=}\NormalTok{sigmas, }\AttributeTok{props=}\FunctionTok{as.vector}\NormalTok{(lambdas))}
+\NormalTok{den3d }\OtherTok{\textless{}{-}} \FunctionTok{kde2d}\NormalTok{(dat[,}\DecValTok{1}\NormalTok{],dat[,}\DecValTok{2}\NormalTok{])}
+\CommentTok{\#persp(den3d, box=FALSE)}
+\FunctionTok{plot\_ly}\NormalTok{(}\AttributeTok{x=}\NormalTok{den3d}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y=}\NormalTok{den3d}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{z=}\NormalTok{den3d}\SpecialCharTok{$}\NormalTok{z) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{add\_surface}\NormalTok{()}
+
+
+\DocumentationTok{\#\#\#TEST AD}
+\NormalTok{testAD}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(data,mus,sigmapob,lambdapob)\{}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.data.frame}\NormalTok{(data) }\SpecialCharTok{\&\&} \SpecialCharTok{!}\FunctionTok{is.matrix}\NormalTok{(data)) }
+    \FunctionTok{stop}\NormalTok{(}\StringTok{\textquotesingle{}data supplied must be either of class }\SpecialCharTok{\textbackslash{}"}\StringTok{data frame}\SpecialCharTok{\textbackslash{}"}\StringTok{ or }\SpecialCharTok{\textbackslash{}"}\StringTok{matrix}\SpecialCharTok{\textbackslash{}"}\StringTok{\textquotesingle{}}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{dim}\NormalTok{(data)[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{\textless{}} \DecValTok{2} \SpecialCharTok{||} \FunctionTok{is.null}\NormalTok{(}\FunctionTok{dim}\NormalTok{(data))) }
+\NormalTok{  \{}\FunctionTok{stop}\NormalTok{(}\StringTok{"data dimesion has to be more than 1"}\NormalTok{)\}}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{dim}\NormalTok{(data)[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{\textless{}} \DecValTok{3}\NormalTok{) \{}\FunctionTok{stop}\NormalTok{(}\StringTok{"not enough data for assessing mvn"}\NormalTok{)\}}
+\NormalTok{  data.name }\OtherTok{\textless{}{-}} \FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(data))}
+\NormalTok{  xp }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(data)}
+\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{dim}\NormalTok{(xp)[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{dim}\NormalTok{(xp)[}\DecValTok{1}\NormalTok{]}
+  \DocumentationTok{\#\# getting MLEs...}
+\NormalTok{  s.mean }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(xp)}
+\NormalTok{  s.cov }\OtherTok{\textless{}{-}}\NormalTok{ (n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{/}\NormalTok{n}\SpecialCharTok{*}\FunctionTok{cov}\NormalTok{(xp)}
+\NormalTok{  s.cov.inv }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(s.cov) }\CommentTok{\# inverse matrix of S (matrix of sample covariances)}
+\NormalTok{  D }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,n) }\CommentTok{\# vector of (Xi{-}mu)\textquotesingle{}S\^{}{-}1(Xi{-}mu)...}
+  \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{    D[j] }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(xp[j,]}\SpecialCharTok{{-}}\NormalTok{s.mean)}\SpecialCharTok{\%*\%}\NormalTok{(s.cov.inv}\SpecialCharTok{\%*\%}\NormalTok{(xp[j,]}\SpecialCharTok{{-}}\NormalTok{s.mean))}
+\NormalTok{  D.or }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(D) }\DocumentationTok{\#\# get ordered statistics}
+\NormalTok{  Gp }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(D.or,}\AttributeTok{df=}\NormalTok{p)}
+  \DocumentationTok{\#\# getting the value of A{-}D test...}
+\NormalTok{  ind }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{  an }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{2}\SpecialCharTok{*}\NormalTok{ind}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{log}\NormalTok{(Gp[ind])}\SpecialCharTok{+}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ Gp[n}\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{ind]))}
+\NormalTok{  AD }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{n }\SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(an) }\SpecialCharTok{/}\NormalTok{ n}
+  \DocumentationTok{\#\# getting the p{-}value...}
+\NormalTok{  N }\OtherTok{\textless{}{-}} \FloatTok{1e4}
+\NormalTok{  U }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,N) }\DocumentationTok{\#\# initializing values of the AD test}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{N) \{ }\DocumentationTok{\#\# loop through N reps}
+\NormalTok{    dat}\OtherTok{\textless{}{-}}\FunctionTok{rmvnorm.mixt}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\AttributeTok{mus=}\NormalTok{mus, }\AttributeTok{Sigmas=}\NormalTok{sigmapob, }\AttributeTok{props=}\NormalTok{lambdapob)}
+\NormalTok{    mean1 }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(dat)}
+\NormalTok{    cov1 }\OtherTok{\textless{}{-}}\NormalTok{ (n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{/}\NormalTok{n}\SpecialCharTok{*}\FunctionTok{cov}\NormalTok{(dat)}
+\NormalTok{    cov.inv }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(cov1) }\CommentTok{\# inverse matrix of S (matrix of sample covariances)}
+\NormalTok{    D }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,n) }\CommentTok{\# vector of (Xi{-}mu)\textquotesingle{}S\^{}{-}1(Xi{-}mu)...}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
+\NormalTok{      D[j] }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(data[j,]}\SpecialCharTok{{-}}\NormalTok{mean1)}\SpecialCharTok{\%*\%}\NormalTok{(cov.inv}\SpecialCharTok{\%*\%}\NormalTok{(data[j,]}\SpecialCharTok{{-}}\NormalTok{mean1))}
+\NormalTok{    Gp }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(}\FunctionTok{sort}\NormalTok{(D),}\AttributeTok{df=}\NormalTok{p)}
+    \DocumentationTok{\#\# getting the value of A{-}D test...}
+\NormalTok{    an }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{2}\SpecialCharTok{*}\NormalTok{ind}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(}\FunctionTok{log}\NormalTok{(Gp[ind])}\SpecialCharTok{+}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ Gp[n}\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{ind]))}
+\NormalTok{    U[i] }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{n }\SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(an) }\SpecialCharTok{/}\NormalTok{ n}
+\NormalTok{  \}}
+\NormalTok{  p.value }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(U }\SpecialCharTok{\textgreater{}=}\NormalTok{ AD)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(N}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}
+\NormalTok{  result}\OtherTok{\textless{}{-}}\FunctionTok{new}\NormalTok{(}\StringTok{\textquotesingle{}ad\textquotesingle{}}\NormalTok{,}\AttributeTok{AD=}\NormalTok{AD,}\AttributeTok{p.value=}\NormalTok{p.value,}\AttributeTok{data.name=}\NormalTok{data.name)}
+\NormalTok{  result}
+\NormalTok{\}}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{test}\OtherTok{\textless{}{-}}\FunctionTok{testAD}\NormalTok{(matriz,mus,sigmas,lambdas)}
+
+\DocumentationTok{\#\#\#PLOT GRAFICAS}
+\CommentTok{\#montecarlo}
+\NormalTok{indicador\_sim}\OtherTok{\textless{}{-}}\NormalTok{(dat[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{dat[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\CommentTok{\#bootstrap}
+\NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ ind1}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(x)}
+\NormalTok{h }\OtherTok{\textless{}{-}} \FunctionTok{bw.SJ}\NormalTok{(x)}
+\NormalTok{npden }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(x, }\AttributeTok{bw =}\NormalTok{ h)}
+\FunctionTok{plot}\NormalTok{(npden,}\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{,}\AttributeTok{main =} \StringTok{\textquotesingle{}Distribución del indicador IMC\textquotesingle{}}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{density}\NormalTok{(indicador\_sim),}\AttributeTok{col=}\StringTok{"green"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{density}\NormalTok{(ind1),}\AttributeTok{col=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{,}\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Bootstrap"}\NormalTok{, }\StringTok{"Montecarlo"}\NormalTok{,}\StringTok{\textquotesingle{}Datos\textquotesingle{}}\NormalTok{),}
+       \AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"green"}\NormalTok{,}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{), }\AttributeTok{lty=}\DecValTok{1}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.8}\NormalTok{)}
+
+
+\DocumentationTok{\#\#\#ESTIMACIONES}
+
+\CommentTok{\#MONTECARLO}
+\NormalTok{nsim}\OtherTok{\textless{}{-}}\DecValTok{5000}
+\NormalTok{nx}\OtherTok{\textless{}{-}}\DecValTok{100}
+\NormalTok{media}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\NormalTok{varianza}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\NormalTok{desv}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5000}\NormalTok{)\{}
+\NormalTok{  datos\_sim}\OtherTok{\textless{}{-}}\FunctionTok{rmvnorm.mixt}\NormalTok{(nx, }\AttributeTok{mus=}\NormalTok{mus, }\AttributeTok{Sigmas=}\NormalTok{sigmas, }\AttributeTok{props=}\FunctionTok{as.vector}\NormalTok{(lambdas))}
+\NormalTok{  indicador\_sim}\OtherTok{\textless{}{-}}\NormalTok{datos\_sim[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{datos\_sim[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{  media[i]}\OtherTok{\textless{}{-}}\FunctionTok{mean}\NormalTok{(indicador\_sim)}
+\NormalTok{  varianza[i]}\OtherTok{\textless{}{-}}\FunctionTok{var}\NormalTok{(indicador\_sim)}
+\NormalTok{  desv[i]}\OtherTok{\textless{}{-}}\FunctionTok{sd}\NormalTok{(indicador\_sim)}
+\NormalTok{\}}
+\CommentTok{\#Estimacion media, varianza, desvest(precision)}
+\NormalTok{estimediaMont}\OtherTok{\textless{}{-}}\FunctionTok{mean}\NormalTok{(media)}
+\NormalTok{estivarMont}\OtherTok{\textless{}{-}}\FunctionTok{mean}\NormalTok{(varianza)}
+\NormalTok{estidesMont}\OtherTok{\textless{}{-}}\FunctionTok{mean}\NormalTok{(desv)}
+\NormalTok{varmedia }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{(nsim}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((media }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(media))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{sqrt}\NormalTok{(varmedia)}
+\CommentTok{\#Sesgo}
+\NormalTok{sesgoMontmedia}\OtherTok{\textless{}{-}}\NormalTok{estimediaMont}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(ind1)}
+\NormalTok{sesgoMontvar}\OtherTok{\textless{}{-}}\NormalTok{estivarMont}\SpecialCharTok{{-}}\FunctionTok{var}\NormalTok{(ind1)}
+\NormalTok{sesgoMontdes}\OtherTok{\textless{}{-}}\NormalTok{estidesMont}\SpecialCharTok{{-}}\FunctionTok{sd}\NormalTok{(ind1)}
+
+
+\DocumentationTok{\#\#\#BOOTSTRAP}
+\NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ ind1}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(x)}
+\NormalTok{h }\OtherTok{\textless{}{-}} \FunctionTok{bw.SJ}\NormalTok{(x)}
+\NormalTok{npden }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(x, }\AttributeTok{bw =}\NormalTok{ h)}
+\FunctionTok{plot}\NormalTok{(npden)}
+\NormalTok{range\_x}\OtherTok{\textless{}{-}}\FunctionTok{range}\NormalTok{(npden}\SpecialCharTok{$}\NormalTok{x)}
+
+\CommentTok{\#MEDIA, VARIANZA, PRECISION}
+
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(ind1)}
+\NormalTok{estadistico\_boot }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B)}
+\NormalTok{var\_boot }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B)}
+\NormalTok{desv\_boot }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B)}
+\ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B) \{}
+\NormalTok{  remuestra }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(ind1, n, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  estadistico\_boot[k] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(remuestra)}
+\NormalTok{  var\_boot[k]}\OtherTok{\textless{}{-}}\FunctionTok{var}\NormalTok{(remuestra)}
+\NormalTok{  desv\_boot[k]}\OtherTok{\textless{}{-}}\FunctionTok{sd}\NormalTok{(remuestra)}
+  
+\NormalTok{\}}
+\NormalTok{estimedia\_boot }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(estadistico\_boot)  }
+\NormalTok{estivar\_boot }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(var\_boot)  }
+\NormalTok{estisd\_boot }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(desv\_boot)  }
+\NormalTok{varmediaboot }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{B) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((estadistico\_boot }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(estadistico\_boot))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{sqrt}\NormalTok{(varmediaboot)}
+\CommentTok{\#SESGO}
+\NormalTok{sesgobootmedia}\OtherTok{\textless{}{-}}\NormalTok{estimedia\_boot}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(ind1)}
+\NormalTok{sesgobootvar}\OtherTok{\textless{}{-}}\NormalTok{estivar\_boot}\SpecialCharTok{{-}}\FunctionTok{var}\NormalTok{(ind1)}
+\NormalTok{sesgobootdes}\OtherTok{\textless{}{-}}\NormalTok{estisd\_boot}\SpecialCharTok{{-}}\FunctionTok{sd}\NormalTok{(ind1)}
+
+
+\CommentTok{\#INTERVALOS DE CONFIANZA}
+\CommentTok{\#montecarlo}
+\CommentTok{\#Intervalos confianza }
+\CommentTok{\#media}
+\NormalTok{alfa }\OtherTok{\textless{}{-}} \FloatTok{0.05}
+\NormalTok{ic}\OtherTok{\textless{}{-}}\FunctionTok{quantile}\NormalTok{(media,}\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\#bootstrap}
+
+\CommentTok{\#INTERVALOS {-} METODO PERCENTIL T}
+\NormalTok{alfa}\OtherTok{\textless{}{-}}\FloatTok{0.05}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(ind1)}
+\NormalTok{remuestra}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{estadistico\_boot }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B)}
+\ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B) \{}
+\NormalTok{  remuestra }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(ind1, n, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  x\_barra\_boot}\OtherTok{\textless{}{-}}\FunctionTok{mean}\NormalTok{(remuestra)}
+\NormalTok{  cuasi\_dt\_boot }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(remuestra)}
+\NormalTok{  estadistico\_boot[k] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(n) }\SpecialCharTok{*}\NormalTok{ (x\_barra\_boot }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(ind1))}\SpecialCharTok{/}\NormalTok{cuasi\_dt\_boot  }
+\NormalTok{\}}
+\NormalTok{pto\_crit }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(estadistico\_boot, }\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\CommentTok{\# Construcción del IC}
+\NormalTok{ic\_inf\_boot }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(ind1) }\SpecialCharTok{{-}}\NormalTok{ pto\_crit[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{*} \FunctionTok{sd}\NormalTok{(ind1)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n)}
+\NormalTok{ic\_sup\_boot }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(ind1) }\SpecialCharTok{{-}}\NormalTok{ pto\_crit[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*} \FunctionTok{sd}\NormalTok{(ind1)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n)}
+\NormalTok{IC\_boot }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(ic\_inf\_boot, ic\_sup\_boot) }
+\FunctionTok{names}\NormalTok{(IC\_boot) }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\DecValTok{100}\SpecialCharTok{*}\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), }\StringTok{"\%"}\NormalTok{)}
+
+\DocumentationTok{\#\#\#CONSTRASTE DE HIPOTESIS}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\CommentTok{\#Montecarlo}
+
+\CommentTok{\#CONSTRASTE DE HIPOTESIS}
+\CommentTok{\#Ho: u=22.64}
+\CommentTok{\#Ha: u!=22.64}
+\CommentTok{\#Constatar normalidad de la media del indicador}
+\NormalTok{nsim}\OtherTok{\textless{}{-}}\DecValTok{5000}
+\NormalTok{nx}\OtherTok{\textless{}{-}}\DecValTok{1000}
+\NormalTok{pvalor}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\CommentTok{\#Constrastes}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{nsim) \{}
+\NormalTok{  datos\_sim}\OtherTok{\textless{}{-}}\FunctionTok{rmvnorm.mixt}\NormalTok{(nx, }\AttributeTok{mus=}\NormalTok{mus, }\AttributeTok{Sigmas=}\NormalTok{sigmas, }\AttributeTok{props=}\FunctionTok{as.vector}\NormalTok{(lambdas))}
+\NormalTok{  indicador\_sim}\OtherTok{\textless{}{-}}\NormalTok{datos\_sim[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{datos\_sim[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{  t}\OtherTok{\textless{}{-}}\NormalTok{(}\FunctionTok{mean}\NormalTok{(indicador\_sim)}\SpecialCharTok{{-}}\FloatTok{22.64}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{sd}\NormalTok{(indicador\_sim)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(nx))}
+\NormalTok{  p.value}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pt}\NormalTok{(}\FunctionTok{abs}\NormalTok{(t),nx}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{pt}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(t),nx}\DecValTok{{-}1}\NormalTok{)}
+\NormalTok{  pvalor[i]}\OtherTok{\textless{}{-}}\NormalTok{p.value}
+\NormalTok{\}}
+\NormalTok{\{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Proporción de rechazos al 1\% ="}\NormalTok{, }\FunctionTok{mean}\NormalTok{(pvalor }\SpecialCharTok{\textless{}} \FloatTok{0.01}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Proporción de rechazos al 5\% ="}\NormalTok{, }\FunctionTok{mean}\NormalTok{(pvalor }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Proporción de rechazos al 10\% ="}\NormalTok{, }\FunctionTok{mean}\NormalTok{(pvalor }\SpecialCharTok{\textless{}} \FloatTok{0.1}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+
+\CommentTok{\#bootstrap}
+
+
+\CommentTok{\#CONTRASTE DE HIPOTESIS }
+
+\CommentTok{\#CONSTRASTE DE HIPOTESIS}
+\CommentTok{\#Ho: u=22.64}
+\CommentTok{\#Ha: u!=22.64}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(ind1)}
+\NormalTok{nsim}\OtherTok{\textless{}{-}}\DecValTok{5000}
+\NormalTok{pvalor2}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\CommentTok{\#Constrastes}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{nsim) \{}
+\NormalTok{  remuestra }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(ind1, n, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  t}\OtherTok{\textless{}{-}}\NormalTok{(}\FunctionTok{mean}\NormalTok{(remuestra)}\SpecialCharTok{{-}}\FloatTok{22.64}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{sd}\NormalTok{(remuestra)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n))}
+\NormalTok{  p.value}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pt}\NormalTok{(}\FunctionTok{abs}\NormalTok{(t),n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{pt}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(t),n}\DecValTok{{-}1}\NormalTok{)}
+\NormalTok{  pvalor2[i]}\OtherTok{\textless{}{-}}\NormalTok{p.value}
+\NormalTok{\}}
+\NormalTok{\{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Proporción de rechazos al 1\% ="}\NormalTok{, }\FunctionTok{mean}\NormalTok{(pvalor2 }\SpecialCharTok{\textless{}} \FloatTok{0.01}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Proporción de rechazos al 5\% ="}\NormalTok{, }\FunctionTok{mean}\NormalTok{(pvalor2 }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Proporción de rechazos al 10\% ="}\NormalTok{, }\FunctionTok{mean}\NormalTok{(pvalor2 }\SpecialCharTok{\textless{}} \FloatTok{0.1}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\CommentTok{\#TAMAÑO CONSTRASTE}
+\CommentTok{\#montecarlo}
+\FunctionTok{curve}\NormalTok{(}\FunctionTok{ecdf}\NormalTok{(pvalor)(x), }\AttributeTok{type =} \StringTok{"s"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
+      \AttributeTok{main =} \StringTok{\textquotesingle{}Tamaño del contraste\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}Proporción de rechazos\textquotesingle{}}\NormalTok{, }
+      \AttributeTok{xlab =} \StringTok{\textquotesingle{}Nivel de significación\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{0}\NormalTok{, }\AttributeTok{b=}\DecValTok{1}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
+\CommentTok{\#BOOTSTRAP}
+\FunctionTok{curve}\NormalTok{(}\FunctionTok{ecdf}\NormalTok{(pvalor2)(x), }\AttributeTok{type =} \StringTok{"s"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
+      \AttributeTok{main =} \StringTok{\textquotesingle{}Tamaño del contraste\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}Proporción de rechazos\textquotesingle{}}\NormalTok{, }
+      \AttributeTok{xlab =} \StringTok{\textquotesingle{}Nivel de significación\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a=}\DecValTok{0}\NormalTok{, }\AttributeTok{b=}\DecValTok{1}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
+
+
+\DocumentationTok{\#\#\#MINIMO}
+\CommentTok{\#MONTECARLO}
+\NormalTok{nsim}\OtherTok{\textless{}{-}}\DecValTok{5000}
+\NormalTok{nx}\OtherTok{\textless{}{-}}\DecValTok{100}
+\NormalTok{minimo}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5000}\NormalTok{)\{}
+\NormalTok{  datos\_sim}\OtherTok{\textless{}{-}}\FunctionTok{rmvnorm.mixt}\NormalTok{(nx, }\AttributeTok{mus=}\NormalTok{mus, }\AttributeTok{Sigmas=}\NormalTok{sigmas, }\AttributeTok{props=}\FunctionTok{as.vector}\NormalTok{(lambdas))}
+\NormalTok{  indicador\_sim}\OtherTok{\textless{}{-}}\NormalTok{datos\_sim[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{datos\_sim[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{  minimo[i]}\OtherTok{\textless{}{-}}\FunctionTok{min}\NormalTok{(indicador\_sim)}
+\NormalTok{\}}
+\NormalTok{alfa }\OtherTok{\textless{}{-}} \FloatTok{0.05}
+\NormalTok{ic}\OtherTok{\textless{}{-}}\FunctionTok{quantile}\NormalTok{(minimo,}\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{ic}
+\CommentTok{\#precision}
+\NormalTok{varmin }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{(nsim}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((minimo }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(minimo))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{sqrt}\NormalTok{(varmin)}
+
+
+\CommentTok{\#BOOTSTRAP}
+\CommentTok{\#INTERVALOS {-} METODO PERCENTIL T}
+\NormalTok{alfa}\OtherTok{\textless{}{-}}\FloatTok{0.05}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(ind1)}
+\NormalTok{remuestra}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{estadistico\_boot }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B)}
+\ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B) \{}
+\NormalTok{  remuestra }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(ind1, n, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  estadistico\_boot[k] }\OtherTok{\textless{}{-}}\FunctionTok{min}\NormalTok{(remuestra)}
+\NormalTok{\}}
+\NormalTok{IC\_boot}\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(estadistico\_boot, }\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{IC\_boot}
+\CommentTok{\#precision}
+\NormalTok{varminboot }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{B) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((estadistico\_boot }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(estadistico\_boot))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{sqrt}\NormalTok{(varminboot)}
+
+
+
+\DocumentationTok{\#\#\#\#MAXIMO}
+\CommentTok{\#MONTECARLO}
+\NormalTok{nsim}\OtherTok{\textless{}{-}}\DecValTok{5000}
+\NormalTok{nx}\OtherTok{\textless{}{-}}\DecValTok{100}
+\NormalTok{maximo}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(nsim)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5000}\NormalTok{)\{}
+\NormalTok{  datos\_sim}\OtherTok{\textless{}{-}}\FunctionTok{rmvnorm.mixt}\NormalTok{(nx, }\AttributeTok{mus=}\NormalTok{mus, }\AttributeTok{Sigmas=}\NormalTok{sigmas, }\AttributeTok{props=}\FunctionTok{as.vector}\NormalTok{(lambdas))}
+\NormalTok{  indicador\_sim}\OtherTok{\textless{}{-}}\NormalTok{datos\_sim[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{datos\_sim[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{  maximo[i]}\OtherTok{\textless{}{-}}\FunctionTok{max}\NormalTok{(indicador\_sim)}
+\NormalTok{\}}
+\NormalTok{alfa }\OtherTok{\textless{}{-}} \FloatTok{0.05}
+\NormalTok{ic}\OtherTok{\textless{}{-}}\FunctionTok{quantile}\NormalTok{(maximo,}\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{ic}
+\CommentTok{\#precision}
+\NormalTok{varmax }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{(nsim}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((maximo }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(maximo))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{sqrt}\NormalTok{(varmax)}
+
+
+\CommentTok{\#BOOTSTRAP}
+\CommentTok{\#INTERVALOS {-} METODO PERCENTIL T}
+\NormalTok{alfa}\OtherTok{\textless{}{-}}\FloatTok{0.05}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\NormalTok{n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(ind1)}
+\NormalTok{remuestra}\OtherTok{\textless{}{-}}\FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{estadistico\_boot }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B)}
+\ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B) \{}
+\NormalTok{  remuestra }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(ind1, n, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  estadistico\_boot[k] }\OtherTok{\textless{}{-}}\FunctionTok{max}\NormalTok{(remuestra)}
+\NormalTok{\}}
+\NormalTok{IC\_boot}\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(estadistico\_boot, }\FunctionTok{c}\NormalTok{(alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alfa}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{IC\_boot}
+\CommentTok{\#precision}
+\NormalTok{varmaxboot }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{B) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((estadistico\_boot }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(estadistico\_boot))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{sqrt}\NormalTok{(varmaxboot)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

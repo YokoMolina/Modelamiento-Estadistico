@@ -1,0 +1,536 @@
+---
+title: "Ejercicios"
+author: "Fabián Encarnación, Geoconda Molina, Debbie Echanique"
+date: "2024-02-24"
+output: pdf_document
+header-includes:
+- \usepackage[utf8]{inputenc}
+- \usepackage{float}
+- \usepackage{amsmath,amssymb,amsthm,textcomp}
+- \usepackage[mathscr]{euscript}
+- \usepackage{enumerate}
+- \usepackage{bbm}
+- \usepackage{multicol, float}
+
+---
+\section*{Ejercicio 1}
+
+El límite de velocidad en una autopista es 120Km/h. Un radar situado en la AP9,la autopista entre A Coruña y Vigo, mide la velocidad de los vehículos que circulan por ella. SUpongamos que, para cada vehículo, el radar registra, de forma independiente, tres medidas de la velocidad, $X_1,X_2,X_3$. Para cada medida tenemos que
+$$
+X_i=Velocidad\quad verdadera + Error\quad de \quad  medida=\mu+\epsilon_i
+$$
+Si el radar está bien calibrado es razonable suponer que $E(\epsilon_i)=0$. Además el fabricante asegura que la varianza de $\epsilon_i$,$\sigma^2$, es 12. Si además suponemos que $\epsilon_i$ sigue una distribución normal entonces $X_i \stackrel{d}{=} N(\mu,12)$, donde $\mu$ es la velocidad (desconocida) a la que realmente circula el vehículo.Para decidir si multar o no a un coche que circula por la autopista usando los datos disponibles se plantea un test de la forma $H_0:\mu \leq 120$ frente a $H_1:\mu>120$. Para este test se consideran cuatro estadísticos de constraste: $T_i=X_{(i)}$ (donde $X_{(i)}$, i=1,2,3,denota el estadístico ordenado de orden i de la muestra $(X_1,X_2,X_3)$) y $T_4=\bar{X}=(X_1+X_2+X_3)/3.$Las regiones de rechazo correspondientes con $C_i=\left\lbrace T_i\geq c_i\right\rbrace$,$i=1,\ldots,4$.
+\begin{enumerate}
+    \item Calcula $c_i,i=1,\ldots,4$ para que $P_{\mu=120}(C_i)=0.05$
+    \item Si, para los $c_i$ calculados anteriormente, se define $\beta_i(\mu)=P_{\mu}(C_i)$,prueba que $\beta_i(\mu)\leq \alpha$ para todo $\mu \leq 120$ e $i=1,\ldots,4$
+    \item Existe alguna relación entre $\beta_1,\beta_2,\beta_3,\beta_4$ para $\mu>120$. Escribe un código en R que permita dibujar (simultáneamente) $\beta_i(\mu), i=1,\ldots,4$.
+\end{enumerate}
+
+\textbf{Solución.}
+
+\begin{enumerate}
+\item Sean $X_1,X_2,X_3$ variables aleatorias i.i.d con distribución $N(\mu,12)$.
+De donde tenemos el siguiente test:
+
+$$
+H_0:\mu \leq 120\\
+H_1:\mu>120
+
+$$
+Y sean:
+$$
+T_1=X_{(1)}\\
+T_2=X_{(2)}\\
+T_3=X_{(3)}\\
+T_4=\frac{X_1+X_2+X_3}{3}=\bar{X}
+$$
+los estadísticos de contraste y la región de rechazo esta dada por:
+$$
+C_i=\left\lbrace T_i \geq c_i \right\rbrace\quad i=1,\ldots, 4 
+
+$$
+De donde tenemos que:
+$$
+P_{\mu=120}(C_i)=P_{\mu=120}(T_i \geq c_i)=0.05
+$$
+
+Debemos  calcular el valor de $c_i$ para $i=1,\ldots, 4$.
+
+Sea i=1, tenemos que:
+
+
+$$
+P_{\mu=120}(C_1)=P_{\mu=120}(T_1 \geq c_1)=P_{\mu=120}(X_{(1)}\geq c_1)
+$$
+Como $X_(1)$ es el mínimo y $X_1,X_2$ y $X_3$ son i.i.d, se tiene
+
+$$
+P_{\mu=120}(X_{(1)}\geq c_1)=P_{\mu=120}(X_1\geq c_1)*P_{\mu=120}(X_2\geq c_2)P_{\mu=120}(X_3\geq c_3)\\
+=P_{\mu=120}(X_1\geq c_1)^{3}\\
+=(1-P_{\mu=120}(X_1\leq c_1))^3\\
+
+$$
+Centramos y reducimos:
+
+$$
+P_{\mu=120}(X_{(1)}\geq c_1)= (1-P_{\mu=120}(\frac{X_{(1)}-\mu}{\sqrt{12}}\leq \frac{c_1-120}{\sqrt{12}})^3)\\
+=(1-\Phi(\frac{c_1-120}{\sqrt{12}}))^3=0.05
+$$
+
+
+Despejamos $\Phi$:
+$$
+1-\Phi(\frac{c_1-120}{\sqrt{12}})=(0.05)^{\frac{1}{3}}\\
+\Phi(\frac{c_1-120}{\sqrt{12}})=1-(0.05)^{\frac{1}{3}}=0.6316
+$$
+
+Ahora despejamos $c_1$:
+
+$$
+\Phi(\frac{c_1-120}{\sqrt{12}})=0.6316\\
+\frac{c_1-120}{\sqrt{12}}=Z_{0.6316}=0.336994\\
+c_{1}=\sqrt{12}*0.336994+120=121.16
+$$
+Para i=2:
+
+$$
+P_{\mu=120}(C_2)=P_{\mu=120}(T_2 \geq c_2)=P_{\mu=120}(X_{(2)}\geq c_2)\\
+=1-P_{\mu=120}(X_{(2)}\leq c_2)
+$$
+Como son i.i.d y centrand nos queda que:
+$$
+P_{\mu=120}(X_{(2)}\leq c_2)=\sum_{w=2}^3 \binom{3}{w}(F_{X_1}(c_2))^w*(1-F_{X_1(c_2)})^{3-w}\\
+
+=3*(F_{(X_1)}(c_2))^2*(1-F_{X_1}(c_2))+1*(F_{X_1}(c_2))^3\\
+
+=3*(F_{(X_1)}(c_2))^2-3*F_{X_1}(c_2)^3+F_{X_1}(c_2)^3\\
+
+=3*\Phi(\frac{c_2-120}{\sqrt{12}})^2-2*\Phi(\frac{c_2-120}{\sqrt{12}})^3
+
+$$
+Así, nos queda que:
+
+$$
+P_{\mu=120}(C_2)=1-3*\Phi(\frac{c_2-120}{\sqrt{12}})^2+2*\Phi(\frac{c_2-120}{\sqrt{12}})^3=0.05
+$$
+De donde se sigue:
+$$
+-3*\Phi(\frac{c_2-120}{\sqrt{12}})^2+2*\Phi(\frac{c_2-120}{\sqrt{12}})^3=0.05-1\\
+
+$$
+Resolviendo:$-3x^2+2x^3+0.95$, nos queda que
+Despejando $c_2$ nos queda que:
+$$
+x=0.86465=\Phi(\frac{c_2-120}{\sqrt{12}})
+$$
+Desjando $c_2$, nos queda que:
+
+$$
+c_2=\sqrt{12}*Z_{0.86465}+120=123.82
+$$
+Para i=3, nos queda que:
+$$
+P_{\mu=120}(C_3)=P_{\mu=120}(T_3 \geq c_3)=P_{\mu=120}(X_{(3)}\geq c_1)
+$$
+Como $X_(3)$ es el máximo y $X_1,X_2$ y $X_3$ son i.i.d, se tiene
+
+$$
+P_{\mu=120}(X_{(3)}\geq c_1)=1-P_{\mu=120}(X_{(3)}\leq c_3)\\
+=1-P(X_1\leq c_3)*P(X_2\leq c_3)*P(X_3\leq c_3)\\
+=1-P(X_1\leq c_3)^3\\
+=1-(F_{X_1}(c_3))^3\\
+=1-\Phi(\frac{c_3-120}{\sqrt{12}})^3=0.05
+
+
+$$
+Resolviendo la ecuación $(0.95-x^3=0)$, se tiene la siguiente solución real:
+$$
+\Phi(\frac{c_3-120}{\sqrt{12}})=0.983048
+$$
+Despejando $c_3$ se tiene que:
+$$
+c_3=\sqrt{12}(Z_{0.983048})+120=127.34
+$$
+Para i=4,tenemos que:
+$$
+P_{\mu=120}(C_4)=P_{\mu=120}(T_4 \geq c_4)=P_{\mu=120}(\bar{X}\geq c_4)
+$$
+De donde se sigue que:
+$$
+P_{\mu=120}(C_4)=P_{\mu=120}(\bar{X}\geq c_4)\\
+= 1-P_{\mu=120}(\bar{X}\leq c_4)
+$$
+Sabemos que la distribución de la media de variables normales sigue una distribución normal con media $\mu$ y varianza igual a $\frac{\sigma^2}{n}$, por lo tanto se tiene que centrando y reduciendo :
+$$
+P_{\mu=120}(C_4)= 1-P_{\mu=120}(\bar{X}\leq c_4)\\
+=1-\Phi(\frac{c_4-120}{\sqrt{\frac{12}{3}}})=0.05\\
+\Phi(\frac{c_4-120}{\sqrt{\frac{12}{3}}})=0.95
+$$
+
+Despejando $c_4$, tenemos que:
+$$
+c_4=2*Z_{0.95}+120\\
+=2*1.645+120=123.29
+
+$$
+\item Sea $\beta_i(\mu)=P_{\mu}(C_i)$ con $i=1,\ldots,4$. Por demostrar que $\beta_i(\mu)\leq \alpha$ para todo $\mu \leq 120$  $i=1,\ldots,4$.
+
+Por definición de $\beta_i$ tenemos que es la probabilidad de aceptar la hipótesis nula cuando realmente es falsa, es decir cuando se tiene que $\mu> 120$.
+Por otra parte, sabemos que la probabilidad de rechazar Ho ($\mu \leq 120$) cuando es verdadera es igual a $\alpha$. Como $X_1,\ldots, X_3$, siguen unda distribución Normal con media igual a $mu$ y varianza igual a 12 y la media de $\epsilon$ es igual a cero, se tiene que  al centrarlas y reducir las variables no aumentará la probabilidad de rechazar Ho, ya que al realizar este procedimiento la distribución va a tomar valores más bajos lo que va a ocasionar que se alejen de la región de rechazo antes mencionada.
+
+Para i=1, tenemos que $c_1=121.16$, de donde, se tendría que:
+$$
+\beta_1(\mu)=P_{\mu=120}(X_{(1)}\geq 121.16)\\
+=(1-F_{X_1}(121.16))^3=(1-0.631134)^3=0.05\leq \alpha
+$$
+Para i=2, $C_2=123.82$
+$$
+P_{\mu=120}(X_{(2)}\leq c_2)= 3*(F_{(X_1)}(123.82))^2-2*F_{X_1}(123.82)^3\leq \alpha
+$$
+Para i=3:
+$$
+P_{\mu=120}(X_{(3)}\geq c_1)
+=1-(F_{X_1}(127.34))^3=0.05\leq \alpha
+$$
+
+
+Para $c_4=123.29$:
+
+$$
+\beta_4(\mu)=P_{\mu\leq 120}(\bar{X}\geq 123.29)=1-F_{X_1}(123.39)\leq \alpha
+$$
+\end{enumerate}
+
+\item 
+
+# Código:
+```{r}
+Betas<-function(media,c){
+  DesE<-sqrt(12)
+  f<-1-pnorm(c,mean=media,sd=DesE)
+  return(f)
+}
+# Generamos valores de mu>120
+
+Mu<-seq(120,140,by=0.1)
+valc<-c(121.16,123.82,127.35,123.29)
+Beta1<-numeric()
+Beta2<-numeric()
+Beta3<-numeric()
+Beta4<-numeric()
+for(i in 1:length(Mu)){
+  
+  Beta1[i]<-Betas(Mu[i],121.16)
+  Beta2[i]<-Betas(Mu[i],123.82)
+  Beta3[i]<-Betas(Mu[i],127.35)
+  Beta4[i]<-Betas(Mu[i],123.29)
+  
+}
+
+plot(Mu,Beta1,type='l',col='red')
+lines(Mu,Beta2,col="#9C3674")
+lines(Mu,Beta3,col='blue')
+lines(Mu,Beta4,col='#1A135A')
+legend('bottomright',legend=c('Beta1','Beta2','Beta3','Beta4'), col = c("red","#9C3674", 'blue',"#1A135A"),lty=1)
+
+```
+Vemos que a medida de que aumenta los valores de $\mu$, las probabilidades de $\beta_i(\mu)$ también aumentan, acercandosé a 1. 
+
+\section*{Ejercicio 2} 
+
+
+Sea $\left(X_1, \ldots, X_n\right)$ una muestra aleatoria simple de $X \in N\left(\mu, \sigma^2\right)$, con $\mu \in \mathbb{R}$ desconocida y $\sigma^2>0$ conocida. Encontrar:
+\begin{enumerate}
+    \item El ECUMV para $\eta_1=\mu^4$.
+    \item El ECUMV para $\eta_2=P\left(X_1 \leq t\right)$, siendo $t$ un número conocido.
+    \item El estimador de máxima verosimilitud de $\eta_2$. Calcula su distribución límite.
+\end{enumerate}
+
+Aproxima mediante simulación (usa 1000 simulaciones con $\mu=0, \sigma^2=1, t=1$) el error cuadrático medio del ECUMV y del estimador de máxima verosimilitud de $\eta_2$. Comprueba (aproximando el sesgo por simulación) que el ECUMV es insesgado. ¿Cuál tiene menor error cuadrático medio? 
+
+\textbf{Solución.}
+\begin{enumerate}[(i)]
+    \item Sea $\bar{X}$ la media muestral, la cual es completa y suficiente para $\mu$. Dado que
+    $$
+    0=E(\bar{X}-\mu)^3=E\left(\bar{X}^3-3 \mu \bar{X}^2+3 \mu^2 \bar{X}-\mu^3\right)=E\left(\bar{X}^3\right)-3 \mu \sigma^2 / n-\mu^3,
+    $$
+    obtenemos que
+    $$
+    E\left[\bar{X}^3-\left(3 \sigma^2 / n\right) \bar{X}\right]=E\left(\bar{X}^3\right)-3 \mu \sigma^2 / n=\mu^3
+    $$
+    para todo $\mu$. Por el teorema de Lehmann-Scheffé, el ECUMV de $\mu^3$ es $\bar{X}^3-$ $\left(3 \sigma^2 / n\right) \bar{X}$. De manera similar,
+    $$
+    \begin{aligned}
+    3 \sigma^4 & =E(\bar{X}-\mu)^4 \\
+    & =E\left[\bar{X}(\bar{X}-\mu)^3\right] \\
+    & =E\left[\bar{X}^4-3 \mu \bar{X}^3+3 \mu^2 \bar{X}^2-\mu^3 \bar{X}\right] \\
+    & =E\left(\bar{X}^4\right)-3 \mu\left(3 \mu \sigma^2 / n+\mu^3\right)+3 \mu^2\left(\sigma^2 / n+\mu^2\right)-\mu^4 \\
+    & =E\left(\bar{X}^4\right)-6 \mu^2 \sigma^2 / n-4 \mu^4 \\
+    & =E\left(\bar{X}^4\right)-\left(6 \sigma^2 / n\right) E\left(\bar{X}^2-\sigma^2 / n\right)-4 \mu^4 .
+    \end{aligned}
+    $$
+    Por lo tanto, el ECUMV de $\mu^4$ es $\left[\bar{X}^4-\left(6 \sigma^2 / n\right)\left(\bar{X}^2-\sigma^2 / n\right)-3 \sigma^4\right] / 4$.
+    \item Dado que $E\left[P\left(X_1 \leq t \mid \bar{X}\right)\right]=P\left(X_1 \leq t\right)$, el ECUMV de $P\left(X_1 \leq t\right)$ es
+    $P\left(X_1 \leq t \mid \bar{X}\right)$. A partir de las propiedades de las distribuciones normales, $\left(X_1, \bar{X}\right)$ es normal bivariada con media $(\mu, \mu)$ y matriz de covarianza
+    $$
+    \sigma^2\left(\begin{array}{cc}
+    1 & n^{-1} \\
+    n^{-1} & n^{-1}
+    \end{array}\right) .
+    $$
+    En consecuencia, la distribución condicional de $X_1$ dada $\bar{X}$ es la distribución normal $N\left(\bar{X},\left(1-n^{-1}\right) \sigma^2\right)$. Entonces, el ECUMV de $P\left(X_1 \leq t\right)$ es
+    $$
+    \Phi\left(\frac{t-\bar{X}}{\sigma \sqrt{1-n^{-1}}}\right),
+    $$
+    donde $\Phi$ es la función de distribución acumulada de $N(0,1)$. Por el teorema de convergencia dominada,
+    $$
+    \frac{d}{d t} P\left(X_1 \leq t\right)=\frac{d}{d t} E\left[\Phi\left(\frac{t-\bar{X}}{\sigma \sqrt{1-n^{-1}}}\right)\right]=E\left[\frac{d}{d t} \Phi\left(\frac{t-\bar{X}}{\sigma \sqrt{1-n^{-1}}}\right)\right] .
+    $$
+    Por lo tanto, el ECUMV de $\frac{d}{d t} P\left(X_1 \leq t\right)$ es
+    $$
+    \frac{d}{d t} \Phi\left(\frac{t-\bar{X}}{\sigma \sqrt{1-n^{-1}}}\right)=\frac{1}{\sigma \sqrt{1-n^{-1}}} \Phi^{\prime}\left(\frac{t-\bar{X}}{\sigma \sqrt{1-n^{-1}}}\right) .
+    $$
+    \item Del literal anterior, tenemos que ese es el estimador de máxima verosimilitud, además como $\bar X$ se distribuye asintóticamente como una $N(\mu,\frac{\sigma^2}{n})$  tenemos que cuando $n\to\infty$, es una distribución $N(0,1)$
+\end{enumerate}
+
+```{r warning=FALSE}
+set.seed(1)
+nsim<-1000
+mu<-0
+s<-1
+t<-1
+
+val<-rnorm(nsim,mu,s)
+ecumv<-pnorm(t,val,s)
+emv<-ecumv
+
+val2<-pnorm(t,mu,s)
+errorcmecumv<-mean((ecumv-val2)^2)
+errorcmemv<-errorcmecumv
+sesgo<-mean(ecumv)-val2
+
+cat("Error cuadrático medio del ECUMV y Estimador máximo verosimil:", errorcmecumv, '\n')
+cat('Sesgo del ECUMV:', sesgo, '\n')
+
+```
+
+Los errores del ECUMV y el Estimador máximo verosimil son los mismos ya que ambos son idénticos, además vemos que el existe sesgo de -0.08, lo cual nos dice que no son insesgados ya que deberían considerar un mayor número de simulaciones.
+
+\section{Ejercicio 3}
+
+Sea $X1,...,Xn$ una m.a.s de $X \in {N(\mu,\sigma^2)}$. Si suponemos que $\mu \neq 0$ calcula el comportamiento limite del estimador de máxima verosimilitud del coeficiente de variación $\tau =\frac{\sigma}{\mu}$.
+
+
+**Solución**
+  
+  Por un lado estudiemos el EMV de $\mu$ que es la media muestral:
+  
+  $$
+  \hat\mu=\bar{X}=\frac{1}{n}\sum_{i=1}^{n}X_{i}
+$$
+  Por otro lado el EMV de $\sigma^2$ es la varianza muestral:
+  
+  $$
+  \hat\sigma^{2}=S^{2}=\sum_{i=1}^{n}(X_{i}-\bar{X})^{2}
+$$
+  Por lo que, si $\tau$ se define como $\tau = \sigma/\mu$, sustituyendo las expresiones anteriores se tiene:
+  
+  $$
+  \tau=\frac{\hat\sigma}{\hat\mu}=\frac{\sqrt{\hat\sigma^{2}}}{\hat\mu}
+$$
+  Finalmente, para el comportamiento límite del EMV del coeficiente de variación, $\hat\mu$, puede analizarse utilizando la teoría asintótica. Bajo ciertas condiciones regulares, tenemos que:
+  
+  - $\hat\mu$ es asintóticamente normal con media $\mu$ y varianza $\sigma^{2}/n$.
+
+- $\hat\sigma^{2}$ tiene una distribución asintótica que permite considerar $\hat\sigma$ también asintóticamente normal.
+
+Aplicando el método delta, se puede concluir que $\hat\tau$ tendrá una distribución asintótica normal, cuya variabilidad dependerá de las de $\hat\mu$ y $\hat\sigma$.
+
+
+
+
+\section{Ejercicio 4}
+
+
+Sea $(X1,...,Xn)$ una m.a.s. de $X$ con densidad $f_\theta(X) = (1+\theta)X^{\theta}$ si $X\in (0,1)$, $0$ si no, donde $\theta > -1$.
+
+1.  Calcular el EMV de $\theta$ y de $\mu = \mathbb{E}_\theta(X)$
+  2.  Cuál es la distribución en el muestreo de $T = \sum_{i=1}^{n}log(Xi)$
+  3.  Calcular la cota de Cramer-Rao para a estimación insesgada de $\theta$.
+4.  Contrastar de forma UMP: $H_0 : \theta = 0$ vs. $H_1 : \theta = 1$
+  5.  Obtener el test de Razón de Verosimilitudes para: $H_0 : \theta \leq 0$ vs. $H_1 : \theta > 0$
+  
+  
+  Solución
+
+**1.**   
+  
+  Lafunción de verosimilitud para una muestra aleatoria
+simple $X1,...,Xn$ es:
+  
+  $$
+  L(\theta)=\prod_{i=1}^{n}(1+\theta)X_{i=1}^{\theta} =(1+\theta)^{n}\prod_{i=1}^{n}X_{i=1}^{\theta}
+$$
+  $$
+  \Longrightarrow l(\theta)=nlog(1+\theta)+\theta\sum_{i=1}^{n}log(xi)
+$$
+  Derivando:
+  $$
+  \frac{d}{d\theta} l(\theta)=0\\
+\Longrightarrow  \frac{n}{1+\theta}+\sum_{i=1}^{n}log(xi)=0\\
+\Longrightarrow \frac{n}{1+\theta}=-\sum_{i=1}^{n}log(xi)\\
+\Longrightarrow \frac{-n}{\sum_{i=1}^{n}log(xi)}=1+\theta\\
+\Longrightarrow \theta=-(1+\frac{n}{\sum_{i=1}^{n}log(xi)})
+$$
+  Por lo que, el EMV de $\theta$ es:
+  
+  $$
+  \hat\theta=-(1+\frac{n}{\sum_{i=1}^{n}log(xi)})
+$$
+  Calculemos $\mu = \mathbb{E}_\theta(X)$, así:
+  
+  $$
+  \mu=\int_{0}^{1}x(1+\theta)x^{\theta}dx\\
+=(1+\theta)\int_{0}^{1} x^{1+\theta} dx\\
+=(1+\theta)\frac{x^{2+\theta}}{\theta+2}|_{1}\\
+=\frac{\theta+1}{\theta+2}
+$$
+  Así, para encontrar el EMV de $\mu$
+  
+  $$
+  \hat\mu=\frac{\hat\theta+1}{\hat\theta+2}=\frac{2+\frac{n}{\sum_{i=1}^{n}log(xi)}}{3+\frac{n}{\sum_{i=1}^{n}log(xi)}}=\frac{2\sum_{i=1}^{n}log(xi)+n}{3\sum_{i=1}^{n}log(xi)+n}
+$$
+  
+  
+  **2.**
+  
+  Asumiendo que $n$ es grande y bajo condiciones regulares se tiene que $T=\sum_{i=1}^{n}log(xi)$ puede aproximarse por una distribución normal debido al Teorema Central del Límite.
+
+
+**3.**
+  
+  La cota de Cramer-Rao proporcio aun límite inferior para la varianza de cualquier estimador insesgado de $\theta$:
+  
+  $$
+  Var(\hat\theta)\geq\frac{1}{I(\theta)}
+$$
+  
+  de donde $I(\theta)$ es la información de Fisher dada por:
+  
+  $$
+  I(\theta)=\mathbb{E}[\frac{d^{2}}{d\theta^{2}}l(\theta)]\\
+\Longrightarrow \frac{d^{2}}{d\theta^{2}}l(\theta)=\frac{d}{d\theta}l(\theta) =\frac{d}{d\theta}\frac{n}{1+\theta}+\sum_{i=1}^{n}log(xi)=\frac{-n}{(\theta+1)^{2}}
+$$
+  
+  Reemplazando:
+  
+  $$
+  I(\theta)=\mathbb{E}[\frac{d^{2}}{d\theta^{2}}l(\theta)]=\mathbb{E}[\frac{-n}{(\theta+1)^{2}}]=\frac{n}{(\theta+1)^{2}}
+$$
+  Finalmente
+
+$$
+  Var(\hat\theta)\geq\frac{(\theta+1)^{2}}{n}
+$$
+  
+  **4.**
+  
+  Usando el lema de  Neyman-Pearson cuando se trata de hipótesis simples.
+
+El lema de Neyman-Pearson establece que el test más poderoso para probar $H_0$ contra $H_1$ a un nivel de significancia $\alpha$ está basado en la región crítica definida por el cociente de verosimilitudes:
+  
+  $$
+  \Lambda(x) =\frac{L(\theta = 1|x)}{L(\theta = 0|x)}, \text{se rechaza } H_0 \text{ si } \Lambda(x)>k
+$$
+  
+  donde $k$ es una constante que se determina por el nivel de significacia $\alpha$.
+
+Así, se puede calcular las funciones de verosimilitud para cada caso:
+  
+  (a)   Para $\theta = 0$:
+  
+  Se tiene que $f_\theta(x) = 2x\text{ para }x \in (0,1)$, por lo que:
+  
+  $$
+  L(\theta = 1|x) = 2^{n}\prod^{n}_{i=1}xi\\
+\Longrightarrow  \Lambda(x) =\frac{L(\theta = 1|x)}{L(\theta = 0|x)}=2^{n}\prod^{n}_{i=1}xi
+$$
+  
+  **5.**
+  
+  Para obtener el test de Razón de Verosimilitudes para las hipótesis nulas y alternativas dadas ($H_0 : \theta \leq 0$ vs. $H_1 : \theta > 0$), primero necesitamos calcular la función de verosimilitud bajo ambas hipótesis y luego compararlas.
+
+Supongamos que tenemos datos observados $x_1, x_2, ..., x_n$ y una distribución conocida parametrizada por $\theta$, entonces la función de verosimilitud bajo $H_0$ es:
+  
+  $$L(\theta|x_1, x_2, ..., x_n)$$
+  
+  La función de verosimilitud bajo la hipótesis alternativa ($H_1$) implica que estamos restringiendo el parámetro $\theta$ a ser mayor que cero. Por lo tanto, la función de verosimilitud bajo $H_1$ se convierte en:
+  
+  $$L(\theta|x_1, x_2, ..., x_n) = \prod_{i=1}^{n} f(x_i | \theta) \quad \text{para } \theta > 0$$
+  
+  Donde $f(x_i | \theta)$ es la función de densidad de probabilidad de la distribución que estamos considerando.
+
+Luego, calculamos el logaritmo de la razón de las funciones de verosimilitud:
+  
+  $$\Lambda = \frac{L(\hat{\theta}_{H_1})}{L(\hat{\theta}_{H_0})}$$
+  
+  Donde $\hat{\theta}_{H_1}$ y $\hat{\theta}_{H_0}$ son los estimadores de máxima verosimilitud bajo $H_1$ y $H_0$, respectivamente.
+
+Si $\Lambda$ es mayor que un cierto valor crítico (que depende del nivel de significancia deseado y la distribución del estadístico de prueba bajo la hipótesis nula), entonces rechazamos $H_0$ a favor de $H_1$.
+
+Es importante tener en cuenta que dependiendo de la distribución de la estadística de prueba, puede que no exista una solución analítica para encontrar el valor crítico, y en ese caso, podría ser necesario recurrir a métodos numéricos o aproximaciones.
+
+\section{Ejercicio 5:}
+
+Sea $\left\lbrace F_{\theta}\right\rbrace_{\theta\in\Theta\subset\mathbb{R}^q}=\left\lbrace N(\mu,\sigma^2)\right\rbrace$ donde $(\mu,\sigma^2)\in \mathbb{R}\times\mathbb{R}$ y sea el estadístico de Kolmogorov Smirknov adptado a esta hipótesis compuesta:
+
+$$
+D_n=\sup_{x\in\mathbb{R}}|F_n(x)-F_{\hat{\theta}}(x)|=\sup_{x\in\mathbb{R}}|F_n(x)-F_{\bar{X},S^2}(x)|
+$$
+
+\begin{itemize}
+\item Probar que la distribución de $D_n$ es la misma $\forall \theta \in\Theta=\mathbb{R}\times\mathbb{R^+}$
+
+sea $\theta \in\Theta=\mathbb{R}\times\mathbb{R^+}=(\mu,\sigma^2)$ , con $\mu$ y $\sigma$ desconocidos y  $X_1,X_2,,\ldots,X_n$ una muestra aleatoria i.i,d de X con X$\sim$$N(\mu,\sigma^2)$.
+Sabemos que $\bar{X}$ y $S^2$ son estadísticos de mínima  varianza (EMV) de los parámetros de $\mu$ y $\sigma$ respectivamente, por lo tanto definimos la siguiente variable aleatoria:
+
+
+$$
+W=\frac{X-\bar{X}}{S}
+$$
+de donde se sigue que:
+
+$$
+P(X\leq x)=P(\frac{X-\bar{X}}{S}\leq \frac{x-\bar{X}}{S}=w)=\Phi(w)=F_{\bar{X},S^2}(x)\\
+P(X\leq x)=P(W\leq w)
+$$
+Por otra parte, usando la función de distribución empírica tenemos que:
+$$
+F_n(x)=\frac{1}{n}\sum_{i=1}^n \mathbf{1}_{\left\lbrace X_i<x\right\rbrace}
+$$
+
+Como $P(X\leq x)=P(W\leq w)$, se tiene que:
+$$
+F_n(x)=\frac{1}{n}\sum_{i=1}^n \mathbf{1}_{\left\lbrace X_i<x\right\rbrace}=\frac{1}{n}\sum_{i=1}^n \mathbf{1}_{\left\lbrace W_i<w\right\rbrace}=\frac{1}{n}\sum_{i=1}^n \mathbf{1}_{\left\lbrace w_i< \frac{x_i-\bar{X}}{S}\right\rbrace}=F_n(w)
+$$
+Por otra parte, tenemos que:
+$$
+D_n=\sup_{x\in\mathbb{R}}|F_n(x)-F_{\hat{\theta}}(x)|\\
+=\sup_{x\in\mathbb{R}}|F_n(x)-F_{\bar{X},S^2}(x)|\\
+=\sup_{w\in\mathbb{R}}|F_n(x)-\Phi(w)|\\
+$$
+
+Podemos reescribir el estimador de Kolmogorov-Smirknov de la siguiente forma:
+
+$$
+D_n=\max_{1\leq i\leq n}\left\lbrace \frac{1}{n}-F_{W_{(i)}},F_{W_{(i)}}-\frac{i-1}{n}\right\rbrace
+=\max_{1\leq i\leq n}\left\lbrace \frac{1}{n}-\phi({W_{(i)})},\phi({W_{(i)}})-\frac{i-1}{n}\right\rbrace
+$$
+De donde se tiene que $\phi(W_{(i)})$ sigue una distribución Uniforme entre 0 y 1, y por tanto $D?n$ no depende de ningún parámetro. Es decir que la distribución de $D_n$ es la misma para todo $\theta\in\Theta=\mathbb{R}\times\mathbb{R}^+$.
+
+
+
+\end{itemize}
+
+
+

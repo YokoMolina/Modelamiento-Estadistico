@@ -1,0 +1,320 @@
+---
+title: "Ejercicios de Bono"
+author: "Debbie Echanique, Geoconda Molina, Fabián Encarnación"
+date: "2024-02-29"
+output: pdf_document
+header-includes:
+- \usepackage[utf8]{inputenc}
+- \usepackage{amsmath,amssymb,amsthm,textcomp}
+- \usepackage[mathscr]{euscript}
+- \usepackage{enumerate}
+- \usepackage{bbm}
+- \usepackage{multicol, float}
+---
+
+\section{Ejercicio 1}
+
+Sea $\{X_{1},\ldots,X_{n}\}$ una \textbf{m.a.s.} de X con distribución F. verificando que $\mathbb{E}[X]^{6}<\infty$. Considere la estimación de $\eta=\mu^{3}$ con $\mu=\mathbb{E}[X]$: 
+
+\textbf{1. Crear el U-estadístico para estimar $\eta U_{n}$}
+
+
+Mediante $h(x_{1},x_{2},x_{3})=x_{1}x_{2}x_{3}$ podemos obtener el U-estadístico para $\eta=\mu^{3}$
+
+\[
+U_{n}=\binom{n}{3}^{-1}\sum_{1<=i<j<k<=n}h(X_{i},X_{j},X_{k})
+\]
+
+\[
+=\frac{6}{n(n-1)(n-2)}\sum_{1\leq i<j<k\leq n}X_{i}X_{j}X_{k}
+\]
+
+donde $\sum_{1\leq i<j<k\leq n}$ es la suma de $\binom{n}{3}$ combinaciones de $\{i,j,k\}$ en $\{1,\ldots,n\}$
+
+
+
+\textbf{2. Calcular el U-estadístico proyectado}
+
+Dado que $\eta=\mathbb{E}[h(X_{1},X_{2},X_{3})]$ la proyección de $U_{n}$ es:
+
+\[
+\hat{U}_{n}=\frac{3}{n}\sum_{i=1}^{3}h_{1}(X_{i})+\eta
+\]
+
+donde $h_{1}(x)=\mathbb{E}[h(x,X_{2},X_{3})]-\eta$.
+
+Si tomamos $X_{1}=x$, entonces:
+
+\begin{align*}
+\mathbb{E}[h(X_{1},X_{2},X_{3})|X_{1}=x]&=\mathbb{E}[h(x,X_{2},X_{3})]\\
+&=\mathbb{E}[xX_{2}X_{3}]\\
+&=x\mathbb{E}[X_{2}X_{3}]\\
+&=x\mu^{2}
+\end{align*}
+
+Luego,
+
+\[
+\hat{U}_{n}=\frac{3}{n}[\mu^{2}\sum_{i=1}^{3}X_{i}+(\frac{n}{3}-3)\eta]
+\]
+
+\[
+=\frac{3}{n}\sum_{i=1}^{3}\{\mathbb{E}[h(X_{1},X_{2},X_{3})|X_{i}]-\eta\}+\eta
+\]
+
+\[
+= \frac{3}{n} \sum_{i=1}^{3} \{\mathbb{X}_{i} \mu^2 - \eta\} + \eta
+\]
+
+
+\textbf{3. Calcular la varianza de $U_{n}$}
+
+Tenemos que:
+
+\[
+\text{Var}(U_{n}) = \binom{n}{3}^{-1} \sum_{k=1}^{3} \binom{3}{k} \binom{n-3}{3-k} \xi_{k}
+\]
+
+con $\xi_{k} = \text{Var}(h_k(X_{1},\ldots,X_{n}))$. Y por tanto:
+
+\[
+\begin{aligned}
+\text{Var}(U_{n}) &= \binom{n}{3}^{-1} \sum_{k=1}^{3} \binom{3}{k} \binom{n-3}{3-k} (h_k(X_{1},\ldots,X_{n})) \\
+&= \binom{n}{3}^{-1} \frac{3}{2} (n-4)(n-5) \text{Var}(h_1(X_{1})) + 3(n-3) \text{Var}(h_2(X_{1}, X_{2})) + \text{Var}(h_3(X_{1},X_{2},X_{3})) \\
+&= \binom{n}{3}^{-1} \frac{3}{2} (n-4)(n-5) \text{Var}(X_{1}) + 3(n-3)\text{Var}(X_{1} X_{2}) + \text{Var}(X_{1} X_{2} X_{3})
+\end{aligned}
+\]
+
+
+\textbf{4. Calcular $\frac{\mathbb{E}[\mathbb{X}^{3}]}{\mathbb{E}[U_{n}]}=C_{n}$ y qué sucede cuando $\lim_{n \to \infty}$}
+
+Tenemos que:
+$$
+\begin{aligned}
+\frac{\mathbb{E}\left[\overline{\mathrm{x}}^3\right]}{\mathbb{E}\left[U_n\right]} & =\frac{\frac{1}{n^3} \sum_i \mathbb{E} X_i^3+3 \sum_{i \neq j} \mathbb{E} X_i X_j^2+\sum_{i \neq j \neq k} \mathbb{E} X_i X_j X_k}{\frac{6}{n(n-1)(n-2)} \sum_{1 \leq i<j<k \leq n} X_i X_j X_k} \\
+& =\frac{n \mathbb{E} X^3+3\left(\begin{array}{c}
+n \\
+2
+\end{array}\right) \mu \mathbb{E} X^2+\left(\begin{array}{c}
+n \\
+3
+\end{array}\right) \mu^3}{n^3 \mu^3} \\
+& =C_n
+\end{aligned}
+$$
+
+Para $n \rightarrow \infty$,
+$$
+\begin{aligned}
+C_n & =\frac{\mathbb{E} X^3}{n^2 \mu^3}+\frac{3(n-1) \mathbb{E} X^2}{2 n^2 \mu^3}+\frac{(n-1)(n-2)}{6 n^2} \\
+C_n & \rightarrow \frac{1}{6}
+\end{aligned}
+$$
+
+\section{Ejercicio 2}
+
+A continuación deduciremos la probabilidad de que una observación determinada forme parte de una muestra bootstrap. Supongamos que obtenemos una muestra bootstrap a partir de un conjunto de n observaciones.
+
+\textbf{ a. ¿Cuál es la probabilidad de que la primera observación bootstrap no sea la  $j$ésima observación de la muestra original?. Justifique su respuesta.}
+
+Esto es 1-probabilidad de que sea la $j$ésima. Es decir:
+
+$$P= 1 - \frac{1}{n}$$
+
+\textbf{b. ¿Cuál es la probabilidad de que la segunda observación bootstrap no sea la  $j$ésima observación de la muestra original?}
+
+Como cada observación bootstrap es una muestra aleatoria, la probabilidad es la misma: 
+
+$$P=1 - \frac{1}{n}$$
+
+\textbf{c. Argumentar que la probabilidad de que la obsersación $j$ésima no esté en la muestra bootstrap es $(1 - 1/n)^n$}
+
+Para que la observación $j$ésima no esté en la muestra, tendría que no estar en cada posición $n$, en otras palabras, no ser elegida en $1,2,...,n$. Por lo tanto la probabilidad es:
+
+$$P=\left(1 - \frac{1}{n}\right)^n$$ 
+
+\textbf{d. Cuando $n = 5$, ¿cuál es la probabilidad de que la $j$ésima observación esté en la muestra bootstrap?}
+
+Utilizando la respuesta del literal anterior, se tiene:
+
+```{r}
+n<-5
+p<-1-(1-1/n)^n
+cat("La probabilidad es:", p)
+```
+\textbf{e. Cuando $n = 100$, ¿cuál es la probabilidad de que $j$ésima observación esté en la muestra bootstrap?}
+ 
+ Análogo al literal anterior:
+
+```{r}
+n<-100
+p<-1-(1-1/n)^n
+cat("La probabilidad es:", p)
+```
+
+\textbf{e. Cuando $n = 10000$, ¿cuál es la probabilidad de que $j$ésima observación esté en la muestra bootstrap?}
+ 
+Análogo a los literales anteriores:
+
+```{r}
+n<-100000
+p<-1-(1-1/n)^n
+cat("La probabilidad es:", p)
+```
+
+\textbf{ g. Crear un gráfico que muestre, para cada valor de $n$ desde 1 a 100000, la probabilidad de que la $j$ésima observación esté en la muestra bootstrap. Comentar lo que se observa}
+
+```{r}
+x<-numeric(100000)
+for (i in 1:100000) {
+  x[i]<-1-(1-1/i)^i
+}
+plot(x,log="x",type="o")
+```
+
+La probabilidad se acerca a 0.63 cuando $n$ va creciendo.
+
+Dado que: 
+$$e^x = \lim_{n \to \infty} \left(1 + \frac{x}{n}\right)^n,$$ 
+Tomando $x=-1$, se tiene que la probabilidad cuando $n$ tiende a infinito es:
+
+$$P=1 - \frac{1}{e}$$
+
+
+\textbf{h. Ahora investigaremos numéricamente la probabilidad de que una muestra bootstrap de tamaño $n = 100$ contenga la $j$ésima observación. Aquí $j = 4$. Creamos repetidamente muestras bootstrap, y cada vez registramos si la cuarta observación está contenida o no en la muestra bootstrap.}
+
+```{r}
+store <- rep (NA, 10000)
+ for (i in 1:10000) {
+store[i] <- sum(sample(1:100, rep = TRUE) == 4) > 0
+}
+mean(store)
+```
+Vemos que la probabilidad cuando se remuestrea es cercana al límite encontrado en el literal anterior
+
+
+
+
+
+\section{Ejercicio 5}
+
+En el capítulo 4, se utilizó la regresión logística para predecir la probabilidad de "\textbf{default}"  utilizando "\textbf{income}" y "\textbf{balance}" en la base de datos "\textbf{Default}". Ahora se estimara el error de prueba de este modelo de regresión logística utilizando el enfoque del conjunto de validación. No olvides de establecer una semilla aleatoria antes de comenzar tu análisis.
+
+\begin{itemize}
+\item Ajuste un modelo de regresión logística que utilice "\textbf{income}" y "\textbf{balance}" para predecir "\textbf{default}"
+
+\textbf{Solución:}
+
+```{r}
+library(ISLR2)
+set.seed(27)
+modelo<-glm(default~income+balance,data=Default,family="binomial")
+summary(modelo)
+```
+
+\item Utilizando el enfoque del conjunto de validación, estime el error de prueba de esta modelo. Para hacerlo, debe realizar los siguientes pasos:
+
+\begin{enumerate}
+\item Divida el conjunto de muestras en un conjunto de entrenamiento y un conjunto de validación.
+\item Ajusta un modelo de regresión logística múltiple utilizando solo las observaciones de entrenamiento.
+\item Obtén una predicción del estado de incumplimiento para cada individuo en el conjunto de validación calculando la probabilidad posteriori de incumplimiento para ese individuo, y clasifica al individuo en la categoría de "\textbf{default}" si la probabilidad posteriori es mayor es mayor que 0.5.
+\item Calcula el error del conjunto de validación, que es la fracción de observaciones en el conjunto de validación que están mal clasificadas.
+\end{enumerate}
+
+\textbf{Solución:}
+
+```{r}
+dato_train<-sample(nrow(Default),nrow(Default))/2
+
+modelo1<-glm(default~income+balance, data=Default,family="binomial",subset=dato_train)
+predic1<-ifelse(predict(modelo1,newdata=Default[-dato_train,],type="response")>0.5,"Si","No")
+table(predic1, Default$default[-dato_train])
+mean(predic1 != Default$default[-dato_train])
+```
+
+\item Repita el proceso del literial anterior tres veces, utilizando tres divisiones diferentes de las observaciones en un conjunto de entrenamiento y un conjunto de vallidación. Comenta sobre los resultados obtenidos.
+
+\textbf{Solución:}
+
+```{r}
+replicate(3, {
+  dt <- sample(nrow(Default), nrow(Default) / 2)
+  mod <- glm(default ~ income + balance, data = Default, family = "binomial", subset = dt)
+  pred <- ifelse(predict(mod, newdata = Default[-dt, ], type = "response") > 0.5, "Si", "No")
+  mean(pred != Default$default[-dt])
+})
+```
+
+Vemos que los valores varian y estos dependen de las muestras que son asignadas en el entrenamiento.
+
+
+\item Ahora considere un modelo de regresión logística que predice la probabilidad de "\textbf{default}" utilizando "\textbf{income}","\textbf{balance}" y una variable ficticia para "\textbf{student}". Estima el error de prueba para este modelo utilizando el enfoque del conjunto de validación. Comenta si incluir una variable ficticia para "\textbf{student}" conduce o no a una reducción en la tasa de error de prueba.
+
+\textbf{Solución:} 
+
+```{r}
+replicate(3, {
+  dt2 <- sample(nrow(Default), nrow(Default) / 2)
+  mod2 <- glm(default ~ income + balance + student, data = Default, family = "binomial", subset = dt2)
+  predic3 <- ifelse(predict(mod2, newdata = Default[-dt2, ], type = "response") > 0.5, "Si", "No")
+  mean(predic3 != Default$default[-dt2])
+})
+```
+
+Vemos que al incluir la variable ficticia "\textbf{student}" no se tiene una reducción  en los valores de la tasa de  error de la prueba. 
+
+\end{itemize}
+\section{Ejercicio 9}
+
+Seguimos considerando el uso de un modelo de regresión logística para predecir la probabilidad de `default` utilizando `income` y `balance` en el conjunto de datos `Default`. En concreto, ahora calcularemos las estimaciones de los errores estándar de los coeficientes de regresión logística de `income` y `balance` de dos formas diferentes: (1) utilizando el bootstrap, y (2) utilizando la fórmula estándar para calcular los errores estándar en la función `glm()`. No olvide establecer una semilla aleatoria antes de comenzar el análisis.
+
+
+
+1. Utilizando las funciones `summary()` y `glm()`, determine los errores estándar estimados para los coeficientes asociados con `income` y `balance` en un modelo de regresión logística múltiple que utiliza ambos predictores.
+
+
+```{r, include=  FALSE}
+#install.packages("ISLR")
+library(ISLR)
+```
+
+
+
+```{r}
+data(Default)
+fit <- glm(default ~ income + balance, data = Default, family = "binomial")
+summary(fit)
+```
+
+Los errores estándar obtenidos por el método bootstrap son: $\beta_1 = 5e^{-6}$ and 
+$\beta_2 = 2.3e^{-4}$.
+
+2.    Escriba una función, `boot.fn()`, que tome como entrada el conjunto de datos `Default` así como un índice de las observaciones, y que produzca las estimaciones de los coeficientes para `income` y `balance` en el modelo de regresión logística múltiple.
+
+```{r}
+boot.fn <- function(x, i) {
+  fit <- glm(default ~ income + balance, data = x[i, ], family = "binomial")
+  coef(fit)[-1]
+}
+```
+
+3. Utilice la función `boot()` junto con su función `boot.fn()` para estimar los errores estándar de los coeficientes de regresión logística para los ingresos y el saldo.
+
+```{r, cache = TRUE}
+library(boot)
+set.seed(42)
+boot(Default, boot.fn, R = 1000)
+```
+
+4. Comente los errores estándar estimados obtenidos utilizando la función `glm()` y utilizando su función bootstrap.
+
+Podemos notar que los errores estandar ontenidos por el método bootstrap son iguales a los obtenidos por `glm()`
+
+
+
+
+
+
+
+
+\end{document}
